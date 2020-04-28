@@ -1,0 +1,106 @@
+#tasks {
+    overflow: hidden;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    #tasklist {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+}
+
+.ah-checkbox {
+    display: block;
+    padding: 8px 10px 8px 44px;
+    position: relative;
+    font-size: 18px;
+    border: 1px solid #cecece;
+    margin: 1px 0px;
+    border-radius: 4px;
+    background: #f7f7f7;
+    color: #444444;
+    overflow: hidden;
+}
+
+.ah-checkbox.is-active {
+    background: #dedede;
+}
+
+.ah-checkbox:hover {
+    background: #ededed;
+    cursor: pointer;
+}
+
+.ah-checkbox input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.ah-checkbox-check {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    height: 20px;
+    width: 20px;
+    background: #e6e6e6;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ah-checkbox:hover input ~ .ah-checkbox-check,
+.ah-checkbox input:focus ~ .ah-checkbox-check {
+    background: #cccccc;
+}
+
+.ah-checkbox input:checked ~ .ah-checkbox-check {
+    background: #1d91be;
+}
+.ah-checkbox:hover input:not([disabled]):checked ~ .ah-checkbox-check,
+.ah-checkbox input:checked:focus ~ .ah-checkbox-check {
+    background: #1c708a;
+}
+.ah-checkbox input:disabled ~ .ah-checkbox-check {
+    background: #e6e6e6;
+    opacity: 0.6;
+    pointer-events: none;
+}
+.ah-checkbox-check:after {
+    box-sizing: unset;
+    content: "";
+    position: absolute;
+    display: none;
+}
+.ah-checkbox input:checked ~ .ah-checkbox-check:after {
+    display: block;
+}
+.ah-checkbox-label .ah-checkbox-check:after {
+    left: 6px;
+    top: 1px;
+    width: 5px;
+    height: 11px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(40deg);
+}
+.ah-checkbox-label input:disabled ~ .ah-checkbox-check:after {
+    border-color: #7b7b7b;
+}
+
+.show-done-checkbox,
+.show-done-checkbox:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 0;
+    color: #444444;
+}
+
+.show-done-checkbox .ah-checkbox-check,
+.show-done-checkbox:hover .ah-checkbox-check {
+    border: 0;
+}
+
+.show-done-checkbox.ah-checkbox-label .ah-checkbox-check:after {
+    top: 2px;
+    left: 7px;
+}

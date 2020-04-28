@@ -1,0 +1,50 @@
+<Template name="lists">
+    <div id="lists">
+        <div style="flex-shrink: 0;">
+            <a role="button" class="burger-button is-pulled-right" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        {{#if listsLoading}}
+        <div class="ui container">
+            <div class="ui active inverted dimmer">
+                <div class="ui text loader">Lade listen...</div>
+            </div>
+            <p></p>
+        </div>
+        {{else}}
+        <div id="listitems" class="ui middle large aligned divided selection list">
+            {{#each lists}}
+            <div class="item {{isActive}}">
+                {{#if dueItems}}
+                <div class="right floated content">
+                    <div class="ui red circular mini label">{{dueItems}}</div>
+                </div>
+                {{/if}}
+                <div class="content">
+                    {{name}}
+                </div>
+            </div>
+            {{else}}
+            <h2 class="ui icon header">
+                <i class="settings icon"></i>
+                <div class="content">
+                    Neue Liste erstellen
+                    <div class="sub header">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'. </div>
+                </div>
+            </h2>
+            {{/each}}
+        </div>
+        <div class="ui icon large input compCreateList">
+            <input type="text" placeholder="Neue Liste erstellen">
+            <i class="plus circle icon"></i>
+        </div>
+        {{/if}}
+    </div>
+    <div class="container-for-background">
+        {{> tasks}}
+        {{> details}}
+    </div>
+</Template>

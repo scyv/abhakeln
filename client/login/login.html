@@ -1,0 +1,27 @@
+<template name="login">
+    <div class="ui text container">
+        <h1 class="ui header">
+            Abhakeln
+            <div class="sub header">Login</div>
+        </h1>
+        <form class="ui form">
+            <div class="field">
+                <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" name="email" id="inpUsername" autocomplete="username" placeholder="Benutzername">
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" id="inpPassword" autocomplete="current-password"
+                        placeholder="Passwort">
+                </div>
+            </div>
+            <div class="ui large buttons fluid">
+                <div class="ui blue button btnLogin">Login</div>
+                <div class="ui secondary button btnCreateAccount">Account anlegen</div>
+            </div>
+        </form>
+    </div>
+</template>

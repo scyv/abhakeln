@@ -1,0 +1,54 @@
+<template name="tasks">
+    <div id="tasks">
+        <div style="flex-shrink: 0;">
+            <a role="button" class="burger-button is-pulled-right" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="ui icon large input compCreateTask">
+            <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
+            <i class="plus circle icon"></i>
+        </div>
+        <div id="tasklist">
+            <div id="opentasks">
+                {{#each opentasks}}
+                <label class="ah-checkbox ah-checkbox-label">
+                    {{task}}
+                    <input type="checkbox" checked="{{done}}" />
+                    <div class="ah-checkbox-check"></div>
+                </label>
+                {{else}}
+                <h2 class="ui icon header segment compNoTasks">
+                    <i class="settings icon"></i>
+                    <div class="content">
+                        Neue Aufgabe erstellen
+                        <div class="sub header">Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder 'Milch'.
+                        </div>
+                    </div>
+                </h2>
+                {{/each}}
+            </div>
+            {{#if donetasks}}
+            <label class="show-done-checkbox ah-checkbox ah-checkbox-label">
+                Erledigte Einträge anzeigen
+                <input type="checkbox" id="showDone" checked="{{showDoneEntries}}" />
+                <div class="ah-checkbox-check"></div>
+            </label>
+            {{#if showDoneEntries}}
+            <div id="donetasks">
+                {{#each donetasks}}
+                <label class="ah-checkbox ah-checkbox-label">
+                    {{task}}
+                    <input type="checkbox" checked="{{done}}" />
+                    <div class="ah-checkbox-check"></div>
+                </label>
+                {{else}}
+                {{/each}}
+            </div>
+            {{/if}}
+            {{/if}}
+        </div>
+    </div>
+</template>

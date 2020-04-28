@@ -1,0 +1,34 @@
+#lists {
+    color: #333333;
+    background: #ffffff;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+
+    #listitems {
+        overflow-y: auto;
+        margin: 0;
+    }
+
+    .compCreateList {
+        padding: 5px;
+    }
+
+    .selected {
+        background: rgba(0, 0, 0, 0.03);
+        color: rgba(0, 0, 0, 0.8);
+    }
+}
+
+@media screen and (min-width: 769px), print {
+    #lists {
+        flex-basis: 330px;
+        flex-grow: 0;
+        border-right: 1px solid #cccccc;
+    }
+}

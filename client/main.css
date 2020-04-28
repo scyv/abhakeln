@@ -1,0 +1,71 @@
+@import "/lib/semantic.min.css";
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.container-for-background {
+    background: url("backgrounds/default.jpg");
+    background-size: cover;
+    flex-grow: 3;
+    overflow: hidden;
+}
+
+.burger-button {
+    color: #4a4a4a;
+    cursor: pointer;
+    display: block;
+    height: 3.25rem;
+    position: relative;
+    width: 3.25rem;
+    margin-left: auto;
+}
+
+.burger-button span {
+    background-color: #000000;
+    display: block;
+    height: 1px;
+    left: calc(50% - 8px);
+    position: absolute;
+    transform-origin: center;
+    transition-duration: 86ms;
+    transition-property: background-color, opacity, transform;
+    transition-timing-function: ease-out;
+    width: 16px;
+}
+
+#items .burger-button {
+    height: 1.75rem;
+    width: 1.75rem;
+}
+
+.burger-button span:nth-child(1) {
+    top: calc(50% - 6px);
+}
+
+.burger-button span:nth-child(2) {
+    top: calc(50% - 1px);
+}
+
+.burger-button span:nth-child(3) {
+    top: calc(50% + 4px);
+}
+
+.burger-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.burger-button.is-active span:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.burger-button.is-active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-button.is-active span:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+}
