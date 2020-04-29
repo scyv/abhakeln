@@ -1,18 +1,24 @@
 import { Template } from "meteor/templating";
 import { Tasks, Lists } from "../../both/collections";
-import { showDoneTasks, selectedList, masterKey } from "../storage";
+import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
 import { Encryption } from "../encryption";
+import { uistate, tasksHandle, listsHandle } from "../main";
 
 import "./tasks.html";
 
 const crypto = new Encryption();
 
 Template.tasks.events({
-    "change #opentasks .ah-checkbox input"() {
+    "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"() {
         Meteor.call("toggleTaskDone", this);
+        return false;
     },
-    "input #donetasks .ah-checkbox input"() {
-        Meteor.call("toggleTaskDone", this);
+    "click #opentasks label.ah-checkbox, click #donetasks label.ah-checkbox"() {
+        selectedTask.set(this._id);
+        uistate.showDetails.set(true);
+        history.pushState(null, this.task, "/list/" + this.list + "/task/" + this._id);
+        uistate.currentView.set("details");
+        return false;
     },
     "input #showDone"() {
         showDoneTasks.set(!showDoneTasks.get());
@@ -20,6 +26,7 @@ Template.tasks.events({
     "keydown .compCreateTask input"(evt) {
         if (evt.keyCode === 13) {
             const list = Lists.findOne(selectedList.get());
+            if (!list) return;
             const taskData = {
                 task: evt.target.value.trim(),
                 list: list._id,
@@ -45,6 +52,9 @@ const decryptTask = (task) => {
 };
 
 Template.tasks.helpers({
+    tasksLoading() {
+        return !listsHandle.ready || !tasksHandle.ready;
+    },
     showDoneEntries() {
         return showDoneTasks.get();
     },

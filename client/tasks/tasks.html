@@ -1,4 +1,20 @@
 <template name="tasks">
+    {{#if tasksLoading}}
+    <div class="ui placeholder">
+        <div class="paragraph">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="paragraph">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div>
+    {{else}}
     <div id="tasks">
         <div style="flex-shrink: 0;">
             <a role="button" class="burger-button is-pulled-right" aria-label="menu" aria-expanded="false">
@@ -20,11 +36,12 @@
                     <div class="ah-checkbox-check"></div>
                 </label>
                 {{else}}
-                <h2 class="ui icon header segment compNoTasks">
+                <h2 class="ui icon container header segment compNoTasks">
                     <i class="settings icon"></i>
                     <div class="content">
                         Neue Aufgabe erstellen
-                        <div class="sub header">Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder 'Milch'.
+                        <div class="sub header">Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder
+                            'Milch'.
                         </div>
                     </div>
                 </h2>
@@ -51,4 +68,5 @@
             {{/if}}
         </div>
     </div>
+    {{/if}}
 </template>

@@ -27,5 +27,6 @@ export class ReactiveStorage {
 
 const storage = new ReactiveStorage();
 export const masterKey = storage.handle("masterKey", "");
-export const selectedList = storage.handle("selectedList", "");
+export const selectedList = storage.handle("selectedList", null);
+export const selectedTask = storage.handle("selectedTask", null);
 export const showDoneTasks = storage.handle("showDoneTasks", false);
