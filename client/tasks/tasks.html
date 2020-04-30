@@ -69,6 +69,9 @@
             </div>
             {{#if donetasks}}
             <label class="show-done-checkbox ah-checkbox ah-checkbox-label">
+                <div class="ui mini blue basic label" style="float: right;">
+                    {{donetasks.length}}
+                </div>
                 Erledigte Einträge anzeigen
                 <input type="checkbox" id="showDone" checked="{{showDoneEntries}}" />
                 <div class="ah-checkbox-check"></div>
