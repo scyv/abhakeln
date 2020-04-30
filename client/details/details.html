@@ -1,5 +1,30 @@
 <template name="details">
     <div id="details">
-        {{task.task}}
+        <h3 class="ui header">
+            <i class="arrow circle left icon navIcon navBack"></i>
+            <div class="content">
+                {{task.task}}
+            </div>
+        </h3>
+        <div class="ui form">
+            <div class="field">
+                <label>Erinnerung:</label>
+                <div class="ui calendar" id="notification_calendar">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Erinnern am...">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Fälligkeit:</label>
+                <div class="ui calendar" id="duedate_calendar">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Fälligkeit am...">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

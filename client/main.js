@@ -13,9 +13,12 @@ export let tasksHandle;
 export let listsHandle;
 
 export const uistate = {
+    VIEW_LISTS: "lists",
+    VIEW_TASKS: "tasks",
+    VIEW_DETAILS: "details",
     isMobile: new ReactiveVar(false),
     showDetails: new ReactiveVar(false),
-    currentView: new ReactiveVar("lists"),
+    currentView: new ReactiveVar(this.VIEW_LISTS),
 };
 
 Tracker.autorun(() => {
@@ -30,7 +33,7 @@ const route = () => {
         selectedList.set(listRoute[1]);
         selectedTask.set(null);
         uistate.showDetails.set(false);
-        uistate.currentView.set("tasks");
+        uistate.currentView.set(uistate.VIEW_TASKS);
         return;
     }
 
@@ -39,14 +42,14 @@ const route = () => {
         selectedList.set(taskRoute[1]);
         selectedTask.set(taskRoute[2]);
         uistate.showDetails.set(true);
-        uistate.currentView.set("details");
+        uistate.currentView.set(uistate.VIEW_DETAILS);
         return;
     }
 
     selectedList.set(null);
     selectedTask.set(null);
     uistate.showDetails.set(false);
-    uistate.currentView.set("lists");
+    uistate.currentView.set(uistate.VIEW_LISTS);
 };
 
 window.onpopstate = function (evt) {

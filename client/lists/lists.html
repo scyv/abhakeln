@@ -1,12 +1,21 @@
 <Template name="lists">
     {{#if showLists}}
     <div id="lists">
-        <div style="flex-shrink: 0;">
-            <a role="button" class="burger-button is-pulled-right" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
+        <div class="ui grid compListsHeader">
+            <div class="thirteen wide column">
+                <h3 class="ui header">
+                    <div class="content">
+                        Abhakeln
+                    </div>
+                </h3>
+            </div>
+            <div class="three wide column">
+                <a role="button" class="burger-button" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
         </div>
         {{#if listsLoading}}
         <div class="ui container">

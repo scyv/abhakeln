@@ -1,7 +1,7 @@
 @import "/lib/semantic.min.css";
 
 body {
-    height: 100vh;
+    /*height: 100vh;*/
     overflow: hidden;
     display: flex;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -19,7 +19,7 @@ body {
     color: #4a4a4a;
     cursor: pointer;
     display: block;
-    height: 3.25rem;
+    height: 100%;
     position: relative;
     width: 3.25rem;
     margin-left: auto;
@@ -36,11 +36,6 @@ body {
     transition-property: background-color, opacity, transform;
     transition-timing-function: ease-out;
     width: 16px;
-}
-
-#items .burger-button {
-    height: 1.75rem;
-    width: 1.75rem;
 }
 
 .burger-button span:nth-child(1) {
@@ -69,4 +64,8 @@ body {
 
 .burger-button.is-active span:nth-child(3) {
     transform: translateY(-5px) rotate(-45deg);
+}
+
+.navIcon {
+    cursor: pointer;
 }

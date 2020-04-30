@@ -16,13 +16,24 @@
     </div>
     {{else}}
     <div id="tasks">
-        <div style="flex-shrink: 0;">
-            <a role="button" class="burger-button is-pulled-right" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
+        <div class="ui grid compTasksHeader">
+            <div class="thirteen wide column">
+                <h3 class="ui header">
+                    <i class="arrow circle left icon navIcon navBack"></i>
+                    <div class="content">
+                        {{listname}}
+                    </div>
+                </h3>
+            </div>
+            <div class="three wide column">
+                <a role="button" class="burger-button" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
         </div>
+
         <div class="ui icon large input compCreateTask">
             <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
             <i class="plus circle icon"></i>
@@ -31,6 +42,15 @@
             <div id="opentasks">
                 {{#each opentasks}}
                 <label class="ah-checkbox ah-checkbox-label">
+                    {{#if dueDate}}
+                    <div class="ui red mini label" style="float: right;">
+                        <i class="calendar icon"></i>
+                        {{dueDate}}
+                    </div>
+                    {{/if}}
+                    {{#if reminder}}
+                    <i class="bell icon small" style="float:right; padding-top: 5px;"></i>
+                    {{/if}}
                     {{task}}
                     <input type="checkbox" checked="{{done}}" />
                     <div class="ah-checkbox-check"></div>

@@ -56,4 +56,16 @@ Meteor.methods({
             Tasks.update({ _id: taskData._id }, { $set: { done: true, doneAt: new Date() } });
         }
     },
+    setReminder(taskId, reminder) {
+        checkUserLoggedIn(this);
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.update({ _id: task._id }, { $set: { reminder: reminder } });
+    },
+    setDuedate(taskId, dueDate) {
+        checkUserLoggedIn(this);
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.update({ _id: task._id }, { $set: { dueDate: dueDate } });
+    },
 });

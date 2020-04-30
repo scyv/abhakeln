@@ -9,6 +9,13 @@ import "./tasks.html";
 const crypto = new Encryption();
 
 Template.tasks.events({
+    "click .navBack"() {
+        uistate.showDetails.set(false);
+        uistate.currentView.set(uistate.VIEW_LISTS);
+        selectedTask.set(null);
+        selectedList.set(null);
+        history.pushState(null, "", "/");
+    },
     "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"() {
         Meteor.call("toggleTaskDone", this);
         return false;
@@ -17,7 +24,7 @@ Template.tasks.events({
         selectedTask.set(this._id);
         uistate.showDetails.set(true);
         history.pushState(null, this.task, "/list/" + this.list + "/task/" + this._id);
-        uistate.currentView.set("details");
+        uistate.currentView.set(uistate.VIEW_DETAILS);
         return false;
     },
     "input #showDone"() {
@@ -53,15 +60,34 @@ const decryptTask = (task) => {
 
 Template.tasks.helpers({
     tasksLoading() {
-        return !listsHandle.ready || !tasksHandle.ready;
+        return !(listsHandle.ready && tasksHandle.ready);
+    },
+    listname() {
+        const userId = Meteor.userId();
+        const key = masterKey.get();
+        const list = Lists.findOne(selectedList.get());
+        if (!list) {
+            return "";
+        }
+        return crypto.decryptListData(list, userId, key).name;
     },
     showDoneEntries() {
         return showDoneTasks.get();
     },
+    dueDate() {
+        if (!this.dueDate) {
+            return null;
+        }
+        const date = new Date(this.dueDate);
+        const day = date.getDate() + "";
+        const month = date.getMonth() + 1 + "";
+        const year = date.getFullYear() + "";
+        return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0");
+    },
     opentasks() {
-        return Tasks.find({ done: false, list: selectedList.get() }).map(decryptTask);
+        return Tasks.find({ done: false, list: selectedList.get() }, { sort: { createdAt: -1 } }).map(decryptTask);
     },
     donetasks() {
-        return Tasks.find({ done: true, list: selectedList.get() }).map(decryptTask);
+        return Tasks.find({ done: true, list: selectedList.get() }, { sort: { doneAt: -1 } }).map(decryptTask);
     },
 });

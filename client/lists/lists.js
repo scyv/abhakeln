@@ -1,7 +1,7 @@
 import "./lists.html";
 import { Encryption } from "../encryption";
 import { masterKey, selectedList, selectedTask } from "../storage";
-import { Lists } from "../../both/collections";
+import { Lists, Tasks } from "../../both/collections";
 
 import { listsHandle, uistate } from "../main";
 
@@ -26,7 +26,10 @@ Template.lists.helpers({
         });
     },
     dueItems() {
-        return 0;
+        const now = new Date().toISOString();
+        return Tasks.find({ list: this._id })
+            .fetch()
+            .reduce((prev, cur) => prev + (!cur.done && cur.dueDate < now ? 1 : 0), 0);
     },
     isActive() {
         return selectedList.get() === this._id ? "selected" : "";
@@ -54,7 +57,7 @@ Template.lists.helpers({
 Template.lists.events({
     "click #listitems .item"() {
         selectedList.set(this._id);
-        uistate.currentView.set("tasks");
+        uistate.currentView.set(uistate.VIEW_TASKS);
         uistate.showDetails.set(false);
         selectedTask.set(null);
         history.pushState(null, this.name, "/list/" + this._id);
