@@ -39,6 +39,13 @@ export class Encryption {
         if (copy.notes) {
             copy.notes = this.encrypt(copy.notes, listKey);
         }
+        if (copy.subtasks) {
+            copy.subtasks = copy.subtasks.map((subtask) => {
+                const copysubtask = Object.assign({}, subtask);
+                copysubtask.task = this.encrypt(subtask.task, listKey);
+                return copysubtask;
+            });
+        }
         return copy;
     }
 

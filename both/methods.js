@@ -20,8 +20,17 @@ Meteor.methods({
         checkUserLoggedIn(this);
         check(listData.name, String);
         check(listData.key, String);
+        if (listData.folder) {
+            check(listData.folder, String);
+        }
+        if (listData.importId) {
+            check(listData.importId, Number);
+        }
+
         const list = {
             name: listData.name,
+            folder: listData.folder,
+            importId: listData.importId,
             owners: [
                 {
                     userId: this.userId,
@@ -41,9 +50,17 @@ Meteor.methods({
         const task = {
             task: taskData.task,
             list: taskData.list,
-            done: false,
-            createdAt: new Date(),
+            done: taskData.done || false,
+            notes: taskData.notes,
+            createdAt: taskData.createdAt || new Date(),
+            doneAt: taskData.doneAt,
+            dueDate: taskData.dueDate,
+            reminder: taskData.reminder,
         };
+
+        if (taskData.importId) {
+            task.importId = taskData.importId;
+        }
 
         return Tasks.insert(task);
     },

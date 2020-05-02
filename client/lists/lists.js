@@ -1,4 +1,5 @@
 import "./lists.html";
+
 import { Encryption } from "../encryption";
 import { masterKey, selectedList, selectedTask } from "../storage";
 import { Lists, Tasks } from "../../both/collections";
@@ -52,6 +53,9 @@ Template.lists.helpers({
         }
         return uistate.showDetails.get();
     },
+    menuVisible() {
+        return uistate.listMenuVisible.get() ? "is-active" : "";
+    },
 });
 
 Template.lists.events({
@@ -80,5 +84,11 @@ Template.lists.events({
                 }
             });
         }
+    },
+    "click .burger-button"() {
+        uistate.listMenuVisible.set(!uistate.listMenuVisible.get());
+    },
+    "click .miImportFromWunderlist"() {
+        $("#dlgWunderlistImport").modal("show");
     },
 });

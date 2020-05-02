@@ -43,13 +43,13 @@
                 {{#each opentasks}}
                 <label class="ah-checkbox ah-checkbox-label">
                     {{#if dueDate}}
-                    <div class="ui red mini label" style="float: right;">
+                    <div class="ui {{isdue}} mini label" style="float: right;">
                         <i class="calendar icon"></i>
                         {{dueDate}}
                     </div>
                     {{/if}}
                     {{#if reminder}}
-                    <i class="bell icon small" style="float:right; padding-top: 5px;"></i>
+                    <i class="bell {{isreminder}} icon small" style="float:right; padding-top: 5px;"></i>
                     {{/if}}
                     {{task}}
                     <input type="checkbox" checked="{{done}}" />

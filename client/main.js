@@ -1,13 +1,14 @@
 import { COLLECTIONS } from "../both/collections";
+import { selectedList, selectedTask } from "./storage";
 
 import "../both/methods";
 import "./login/login";
 import "./lists/lists";
 import "./tasks/tasks";
 import "./details/details";
+import "./wunderlist/import";
 
 import "./main.html";
-import { selectedList, selectedTask } from "./storage";
 
 export let tasksHandle;
 export let listsHandle;
@@ -19,6 +20,8 @@ export const uistate = {
     isMobile: new ReactiveVar(false),
     showDetails: new ReactiveVar(false),
     currentView: new ReactiveVar(this.VIEW_LISTS),
+    listMenuVisible: new ReactiveVar(false),
+    taskMenuVisible: new ReactiveVar(false),
 };
 
 Tracker.autorun(() => {

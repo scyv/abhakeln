@@ -90,4 +90,10 @@ Template.tasks.helpers({
     donetasks() {
         return Tasks.find({ done: true, list: selectedList.get() }, { sort: { doneAt: -1 } }).map(decryptTask);
     },
+    isreminder() {
+        return this.reminder < new Date().toISOString() ? "red" : "";
+    },
+    isdue() {
+        return this.dueDate < new Date().toISOString() ? "red" : "";
+    },
 });

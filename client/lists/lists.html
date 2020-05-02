@@ -10,11 +10,36 @@
                 </h3>
             </div>
             <div class="three wide column">
-                <a role="button" class="burger-button" aria-label="menu" aria-expanded="false">
+                <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
+            </div>
+            <div class="ui inverted segment compListMenu {{menuVisible}}">
+                <div class="ui large inverted relaxed divided list">
+                    <div class="item miHelp">
+                        <i class="help icon"></i>
+                        <div class="content">
+                            <div class="header">Info</div>
+                            Informationen über Version, Lizenzen, ...
+                        </div>
+                    </div>
+                    <div class="item miImportFromWunderlist">
+                        <i class="file import icon"></i>
+                        <div class="content">
+                            <div class="header">Import von Wunderlist</div>
+                            Importieren Sie die Daten von Wunderlist
+                        </div>
+                    </div>
+                    <div class="item miLogout">
+                        <i class="sign out alternate icon"></i>
+                        <div class="content">
+                            <div class="header">Abmelden</div>
+                            Sitzung schließen und abmelden.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {{#if listsLoading}}
