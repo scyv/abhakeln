@@ -2,6 +2,7 @@ import { Mongo } from "meteor/mongo";
 
 export const COLLECTIONS = {
     TASKS: "tasks",
+    DONE_TASKS: "doneTasks",
     LISTS: "lists",
 };
 

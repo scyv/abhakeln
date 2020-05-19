@@ -59,7 +59,11 @@ Meteor.methods({
         };
 
         if (taskData.importId) {
+            check(taskData.importId, Number);
             task.importId = taskData.importId;
+        }
+        if (taskData.subtasks) {
+            task.subtasks = taskData.subtasks;
         }
 
         return Tasks.insert(task);

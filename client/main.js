@@ -11,6 +11,7 @@ import "./wunderlist/import";
 import "./main.html";
 
 export let tasksHandle;
+export let doneTasksHandle;
 export let listsHandle;
 
 export const uistate = {
@@ -27,6 +28,7 @@ export const uistate = {
 Tracker.autorun(() => {
     listsHandle = Meteor.subscribe(COLLECTIONS.LISTS);
     tasksHandle = Meteor.subscribe(COLLECTIONS.TASKS);
+    doneTasksHandle = Meteor.subscribe(COLLECTIONS.DONE_TASKS, selectedList.get());
 });
 
 const route = () => {

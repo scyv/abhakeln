@@ -18,8 +18,15 @@ Meteor.publish(COLLECTIONS.TASKS, function () {
     if (this.userId) {
         const lists = Lists.find({ "owners.userId": this.userId }).map((list) => list._id);
 
-        return Tasks.find({ list: { $in: lists } });
+        return Tasks.find({ done: false, list: { $in: lists } });
     }
+    return [];
+});
 
+Meteor.publish(COLLECTIONS.DONE_TASKS, function (listId) {
+    if (this.userId && listId) {
+        const list = Lists.findOne({ "owners.userId": this.userId, _id: listId });
+        return Tasks.find({ done: true, list: list._id });
+    }
     return [];
 });

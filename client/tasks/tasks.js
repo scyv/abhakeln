@@ -2,12 +2,11 @@ import { Template } from "meteor/templating";
 import { Tasks, Lists } from "../../both/collections";
 import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
 import { Encryption } from "../encryption";
-import { uistate, tasksHandle, listsHandle } from "../main";
+import { uistate, tasksHandle, listsHandle, doneTasksHandle } from "../main";
 
 import "./tasks.html";
 
 const crypto = new Encryption();
-
 Template.tasks.events({
     "click .navBack"() {
         uistate.showDetails.set(false);
@@ -72,7 +71,8 @@ Template.tasks.helpers({
         return crypto.decryptListData(list, userId, key).name;
     },
     showDoneEntries() {
-        return showDoneTasks.get();
+        const showDone = showDoneTasks.get();
+        return showDone;
     },
     dueDate() {
         if (!this.dueDate) {
@@ -88,7 +88,7 @@ Template.tasks.helpers({
         return Tasks.find({ done: false, list: selectedList.get() }, { sort: { createdAt: -1 } }).map(decryptTask);
     },
     donetasks() {
-        return Tasks.find({ done: true, list: selectedList.get() }, { sort: { doneAt: -1 } }).map(decryptTask);
+        return doneTasksHandle.ready() && Tasks.find({ done: true }, { sort: { doneAt: -1 } }).map(decryptTask);
     },
     isreminder() {
         return this.reminder < new Date().toISOString() ? "red" : "";
