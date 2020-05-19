@@ -7,6 +7,8 @@ import { uistate } from "../main";
 
 const crypto = new Encryption();
 
+const noteEditMode = new ReactiveVar(false);
+
 const germanCalendar = {
     text: {
         days: ["M", "D", "M", "D", "F", "S", "S"],
@@ -31,6 +33,7 @@ const germanCalendar = {
 
 Template.details.onRendered(() => {
     Tracker.autorun(() => {
+        noteEditMode.set(false);
         const task = Tasks.findOne({ _id: selectedTask.get() });
         if (!task) {
             return;
@@ -62,6 +65,9 @@ Template.details.helpers({
         }
         return crypto.decryptItemData(task, Lists.findOne(task.list), Meteor.userId(), masterKey.get());
     },
+    noteEditMode(task) {
+        return noteEditMode.get() || !task.notes;
+    },
 });
 
 Template.details.events({
@@ -81,5 +87,16 @@ Template.details.events({
         selectedDate.setMinutes(0);
         selectedDate.setSeconds(0);
         Meteor.call("setDuedate", selectedTask.get(), selectedDate.toISOString());
+    },
+    "click .notes"() {
+        noteEditMode.set(true);
+    },
+    "blur #notesInput"() {
+        const notes = $("#notesInput").val();
+        const task = Tasks.findOne(selectedTask.get());
+        task.notes = notes;
+        const list = Lists.findOne(selectedList.get());
+        const encryptedTaskData = crypto.encryptItemData(task, list, Meteor.userId(), masterKey.get());
+        Meteor.call("setNotes", task._id, encryptedTaskData.notes);
     },
 });

@@ -63,6 +63,7 @@ observe-sequence@1.0.16
 ordered-dict@1.1.0
 ostrio:cstorage@3.0.1
 ostrio:flow-router-extra@3.7.4
+perak:markdown@1.0.5
 promise@0.11.2
 random@1.2.0
 rate-limit@1.0.9

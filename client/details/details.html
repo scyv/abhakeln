@@ -1,9 +1,10 @@
 <template name="details">
+    {{#let t=task}}
     <div id="details">
         <h3 class="ui header">
             <i class="arrow circle left icon navIcon navBack"></i>
             <div class="content">
-                {{task.task}}
+                {{t.task}}
             </div>
         </h3>
         <div class="ui form">
@@ -25,6 +26,34 @@
                     </div>
                 </div>
             </div>
+            {{#if t.subtasks}}
+            <div class="field">
+                <label>Aufgaben:</label>
+                {{#each st in t.subtasks}}
+                <div class="ui checkbox">
+                    <input type="checkbox" checked={{st.done}}>
+                    <label>{{st.task}}</label>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+            <div class="field">
+                <label>Notizen:</label>
+                {{#if noteEditMode t}}
+                <div class="ui left icon input">
+                    <textarea id="notesInput" placeholder="Hier Notizen eingeben">{{t.notes}}</textarea>
+                    <i class="clipboard icon"></i>
+                </div>
+                {{else}}
+                <div class="ui left icon input notes">
+                    <div>
+                        {{#markdown}}{{task.notes}}{{/markdown}}
+                    </div>
+                    <i class="clipboard icon"></i>
+                </div>
+                {{/if}}
+            </div>
         </div>
     </div>
+    {{/let}}
 </template>

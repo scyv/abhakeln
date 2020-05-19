@@ -51,6 +51,9 @@
                     {{#if reminder}}
                     <i class="bell {{isreminder}} icon small" style="float:right; padding-top: 5px;"></i>
                     {{/if}}
+                    {{#if hasNotes}}
+                    <i class="clipboard icon small" style="float:right; padding-top: 5px;"></i>
+                    {{/if}}
                     {{task}}
                     <input type="checkbox" checked="{{done}}" />
                     <div class="ah-checkbox-check"></div>

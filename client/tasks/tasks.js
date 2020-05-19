@@ -96,4 +96,7 @@ Template.tasks.helpers({
     isdue() {
         return this.dueDate < new Date().toISOString() ? "red" : "";
     },
+    hasNotes() {
+        return this.notes;
+    },
 });

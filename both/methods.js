@@ -89,4 +89,10 @@ Meteor.methods({
         checkUserOwnsList(this, task.list);
         Tasks.update({ _id: task._id }, { $set: { dueDate: dueDate } });
     },
+    setNotes(taskId, notes) {
+        checkUserLoggedIn(this);
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.update({ _id: task._id }, { $set: { notes: notes } });
+    },
 });

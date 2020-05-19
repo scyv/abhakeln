@@ -85,7 +85,7 @@ Template.lists.events({
             });
         }
     },
-    "click .burger-button"() {
+    "click #lists .burger-button"() {
         uistate.listMenuVisible.set(!uistate.listMenuVisible.get());
     },
     "click .miImportFromWunderlist"() {

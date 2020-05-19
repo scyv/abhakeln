@@ -1,6 +1,8 @@
 import * as sjcl from "sjcl";
 
 export class Encryption {
+    listKeyCache = {};
+
     hash(content) {
         return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(content));
     }
@@ -64,19 +66,33 @@ export class Encryption {
 
     decryptItemData(itemData, listData, userId, masterKey) {
         const copy = Object.assign({}, itemData);
-        copy.task = this.decrypt(itemData.task, this.decryptListKey(listData, userId, masterKey));
+        const listKey = this.decryptListKey(listData, userId, masterKey);
+        copy.task = this.decrypt(itemData.task, listKey);
         if (copy.notes) {
-            copy.notes = this.decrypt(itemData.notes, this.decryptListKey(listData, userId, masterKey));
+            copy.notes = this.decrypt(itemData.notes, listKey);
+        }
+        if (copy.subtasks) {
+            copy.subtasks = itemData.subtasks.map((subtask) => {
+                const stCopy = Object.assign({}, subtask);
+                stCopy.task = this.decrypt(stCopy.task, listKey);
+                return stCopy;
+            });
         }
         return copy;
     }
 
     decryptListKey(listData, userId, masterKey) {
+        const cachedKey = this.listKeyCache[listData._id];
+        if (cachedKey) {
+            return cachedKey;
+        }
         const listKey = this.findOwnerInfo(listData, userId).key;
         if (!listKey) {
             return undefined;
         }
-        return this.decrypt(listKey, masterKey);
+        const decrypted = this.decrypt(listKey, masterKey);
+        this.listKeyCache[listData._id] = decrypted;
+        return decrypted;
     }
 
     findOwnerInfo(list, userId) {
