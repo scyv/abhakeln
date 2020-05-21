@@ -1,4 +1,4 @@
-<Template name="lists">
+<template name="lists">
     {{#if showLists}}
     <div id="lists">
         <div class="ui grid compListsHeader">
@@ -45,23 +45,23 @@
         {{#if listsLoading}}
         <div class="ui container">
             <div class="ui active inverted dimmer">
-                <div class="ui text loader">Lade listen...</div>
+                <div class="ui text loader">Daten werden entschlüsselt...</div>
             </div>
             <p></p>
         </div>
         {{else}}
         <div id="listitems" class="ui middle large aligned divided selection list">
-            {{#each lists}}
-            <div class="item {{isActive}}">
-                {{#if dueItems}}
-                <div class="right floated content">
-                    <div class="ui red circular mini label">{{dueItems}}</div>
-                </div>
-                {{/if}}
-                <div class="content">
-                    {{name}}
-                </div>
+            {{#each taskTree}}
+            {{#if folder}}
+            <div class="folder">{{folder}}</div>
+            <div class="sublists ui middle aligned divided selection list">
+                {{#each lists}}
+                {{>list}}
+                {{/each}}
             </div>
+            {{else}}
+            {{>list}}
+            {{/if}}
             {{else}}
             <h2 class="ui icon header">
                 <i class="settings icon"></i>
@@ -87,4 +87,17 @@
         {{> details}}
         {{/if}}
     </div>
-</Template>
+</template>
+
+<template name="list">
+    <div class="item {{isActive}}">
+        {{#if dueItems}}
+        <div class="right floated content">
+            <div class="ui red circular mini label">{{dueItems}}</div>
+        </div>
+        {{/if}}
+        <div class="content">
+            {{name}}
+        </div>
+    </div>
+</template>

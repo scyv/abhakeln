@@ -1,0 +1,26 @@
+<template name="dlgRenameList">
+    <div class="ui modal" id="dlgRenameList">
+        <div class="header">Liste umbenennen</div>
+        <div class="scrolling content">
+            <div class="ui icon large input">
+                <input type="text" placeholder="Neuer Name" value="{{listName}}">
+                <i class="plus circle icon"></i>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Abbruch
+            </div>
+            {{>dlgRenameList_confirm}}
+        </div>
+
+    </div>
+
+</template>
+
+<template name="dlgRenameList_confirm">
+    <div class="ui positive right labeled icon button">
+        Liste Umbenennen
+        <i class="checkmark icon"></i>
+    </div>
+</template>

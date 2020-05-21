@@ -1,8 +1,8 @@
 import * as sjcl from "sjcl";
 
-export class Encryption {
-    listKeyCache = {};
+const listKeyCache = {};
 
+export class Encryption {
     hash(content) {
         return sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(content));
     }
@@ -56,6 +56,9 @@ export class Encryption {
         const copy = Object.assign({}, listData);
         if (listKey) {
             copy.name = this.decrypt(listData.name, listKey);
+            if (listData.folder) {
+                copy.folder = this.decrypt(listData.folder, listKey);
+            }
         } else {
             copy.nokey = true;
             const ownerData = this.findOwnerInfo(listData, userId);
@@ -82,7 +85,7 @@ export class Encryption {
     }
 
     decryptListKey(listData, userId, masterKey) {
-        const cachedKey = this.listKeyCache[listData._id];
+        const cachedKey = listKeyCache[listData._id];
         if (cachedKey) {
             return cachedKey;
         }
@@ -91,7 +94,7 @@ export class Encryption {
             return undefined;
         }
         const decrypted = this.decrypt(listKey, masterKey);
-        this.listKeyCache[listData._id] = decrypted;
+        listKeyCache[listData._id] = decrypted;
         return decrypted;
     }
 

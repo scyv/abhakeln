@@ -19,21 +19,26 @@ Template.lists.helpers({
     listsLoading() {
         return !listsHandle.ready();
     },
-    lists() {
+    taskTree() {
         const userId = Meteor.userId();
         const key = masterKey.get();
-        return Lists.find().map((encryptedList) => {
-            return crypto.decryptListData(encryptedList, userId, key);
+        const folders = {};
+        const tree = [];
+        Lists.find().forEach((encryptedList) => {
+            const list = crypto.decryptListData(encryptedList, userId, key);
+            if (list.folder) {
+                let folder = folders[list.folder];
+                if (!folder) {
+                    folder = { folder: list.folder, lists: [] };
+                    folders[list.folder] = folder;
+                    tree.push(folder);
+                }
+                folder.lists.push(list);
+            } else {
+                tree.push(list);
+            }
         });
-    },
-    dueItems() {
-        const now = new Date().toISOString();
-        return Tasks.find({ list: this._id })
-            .fetch()
-            .reduce((prev, cur) => prev + (!cur.done && cur.dueDate < now ? 1 : 0), 0);
-    },
-    isActive() {
-        return selectedList.get() === this._id ? "selected" : "";
+        return tree;
     },
     showLists() {
         if (uistate.isMobile.get() && uistate.currentView.get() !== "lists") {
@@ -55,6 +60,18 @@ Template.lists.helpers({
     },
     menuVisible() {
         return uistate.listMenuVisible.get() ? "is-active" : "";
+    },
+});
+
+Template.list.helpers({
+    dueItems() {
+        const now = new Date().toISOString();
+        return Tasks.find({ list: this._id })
+            .fetch()
+            .reduce((prev, cur) => prev + (!cur.done && cur.dueDate < now ? 1 : 0), 0);
+    },
+    isActive() {
+        return selectedList.get() === this._id ? "selected" : "";
     },
 });
 

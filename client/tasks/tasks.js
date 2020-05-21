@@ -5,6 +5,7 @@ import { Encryption } from "../encryption";
 import { uistate, tasksHandle, listsHandle, doneTasksHandle } from "../main";
 
 import "./tasks.html";
+import "./dlgRenameList";
 
 const crypto = new Encryption();
 Template.tasks.events({
@@ -15,6 +16,13 @@ Template.tasks.events({
         selectedList.set(null);
         history.pushState(null, "", "/");
     },
+    "click #tasks .burger-button"() {
+        uistate.taskMenuVisible.set(!uistate.taskMenuVisible.get());
+    },
+    "click .miRenameList"() {
+        $("#dlgRenameList").modal("show");
+    },
+
     "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"() {
         Meteor.call("toggleTaskDone", this);
         return false;
@@ -98,5 +106,8 @@ Template.tasks.helpers({
     },
     hasNotes() {
         return this.notes;
+    },
+    menuVisible() {
+        return uistate.taskMenuVisible.get() ? "is-active" : "";
     },
 });

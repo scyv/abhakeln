@@ -26,11 +26,29 @@
                 </h3>
             </div>
             <div class="three wide column">
-                <a role="button" class="burger-button" aria-label="menu" aria-expanded="false">
+                <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
+            </div>
+            <div class="ui inverted segment compTaskMenu {{menuVisible}}">
+                <div class="ui large inverted relaxed divided list">
+                    <div class="item miRenameList">
+                        <i class="help icon"></i>
+                        <div class="content">
+                            <div class="header">Umbenennen</div>
+                            Benennen Sie die Liste um.
+                        </div>
+                    </div>
+                    <div class="item miSetFolder">
+                        <i class="file import icon"></i>
+                        <div class="content">
+                            <div class="header">Gruppieren</div>
+                            Gruppieren Sie die Liste in einen Unterordner
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -94,5 +112,6 @@
             {{/if}}
         </div>
     </div>
+    {{>dlgRenameList}}
     {{/if}}
 </template>
