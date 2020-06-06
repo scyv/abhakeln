@@ -1,9 +1,10 @@
 import { Tasks, Lists } from "../../both/collections";
 import { selectedTask, masterKey, selectedList } from "../storage";
 import { Encryption } from "../encryption";
+import { uistate } from "../main";
 
 import "./details.html";
-import { uistate } from "../main";
+import "./dlgRenameTask";
 
 const crypto = new Encryption();
 
@@ -68,6 +69,9 @@ Template.details.helpers({
     noteEditMode(task) {
         return noteEditMode.get() || !task.notes;
     },
+    menuVisible() {
+        return uistate.detailMenuVisible.get() ? "is-active" : "";
+    },
 });
 
 Template.details.events({
@@ -75,6 +79,7 @@ Template.details.events({
         uistate.showDetails.set(false);
         uistate.currentView.set(uistate.VIEW_TASKS);
         selectedTask.set(null);
+        uistate.detailMenuVisible.set(false);
         history.pushState(null, "", "/list/" + selectedList.get());
     },
     "blur #notification_calendar input"() {
@@ -98,5 +103,19 @@ Template.details.events({
         const list = Lists.findOne(selectedList.get());
         const encryptedTaskData = crypto.encryptItemData(task, list, Meteor.userId(), masterKey.get());
         Meteor.call("setNotes", task._id, encryptedTaskData.notes);
+    },
+    "click #details .burger-button"() {
+        uistate.detailMenuVisible.set(!uistate.detailMenuVisible.get());
+    },
+    "click .miRenameTask"() {
+        $("#dlgRenameTask").modal("show");
+    },
+    "click #details .taskName"() {
+        $("#dlgRenameTask").modal("show");
+    },
+    "click .miDeleteTask"() {
+        const taskId = selectedTask.get();
+        $("#details .navBack").click();
+        Meteor.call("deleteTask", taskId);
     },
 });

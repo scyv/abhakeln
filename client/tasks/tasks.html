@@ -16,7 +16,7 @@
     </div>
     {{else}}
     <div id="tasks">
-        <div class="ui grid compTasksHeader">
+        <div class="ui grid compTasksHeader noselect">
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <i class="arrow circle left icon link navIcon navBack"></i>
@@ -48,6 +48,13 @@
                             Gruppieren Sie die Liste in einen Unterordner
                         </div>
                     </div>
+                    <div class="item miDeleteList">
+                        <i class="trash icon"></i>
+                        <div class="content">
+                            <div class="header">Liste Löschen</div>
+                            Löschen Sie die gesamte Liste. Sie wird auch bei allen anderen, die Zugriff haben gelöscht.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,7 +63,7 @@
             <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
             <i class="plus circle link icon"></i>
         </div>
-        <div id="tasklist">
+        <div id="tasklist" class="noselect">
             <div id="opentasks">
                 {{#each opentasks}}
                 <label class="ah-checkbox ah-checkbox-label">
@@ -67,7 +74,10 @@
                     </div>
                     {{/if}}
                     {{#if reminder}}
-                    <i class="bell {{isreminder}} icon small" style="float:right; padding-top: 5px;"></i>
+                    <span data-tooltip="Erinnerung am {{reminderDate}}" data-position="left center"
+                        style="float:right;">
+                        <i class="bell {{isreminder}} icon small"></i>
+                    </span>
                     {{/if}}
                     {{#if hasNotes}}
                     <i class="clipboard icon small" style="float:right; padding-top: 5px;"></i>

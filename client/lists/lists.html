@@ -1,7 +1,7 @@
 <template name="lists">
     {{#if showLists}}
     <div id="lists">
-        <div class="ui grid compListsHeader">
+        <div class="ui grid compListsHeader noselect">
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <div class="content">
@@ -51,7 +51,7 @@
             <p></p>
         </div>
         {{else}}
-        <div id="listitems" class="ui middle large aligned divided selection list">
+        <div id="listitems" class="ui middle large aligned divided selection list noselect">
             {{#each taskTree}}
             {{#if folder}}
             <div class="folder">{{folder}}</div>
@@ -94,7 +94,8 @@
     <div class="item {{isActive}} id-{{_id}}">
         {{#if dueItems}}
         <div class="right floated content">
-            <div class="ui red circular mini label">{{dueItems}}</div>
+            <div class="ui red circular mini label" data-tooltip="{{dueItems}} fällige Aufgaben"
+                data-position="left center">{{dueItems}}</div>
         </div>
         {{/if}}
         <div class="content">

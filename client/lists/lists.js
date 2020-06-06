@@ -80,6 +80,9 @@ Template.lists.events({
         selectedList.set(this._id);
         uistate.currentView.set(uistate.VIEW_TASKS);
         uistate.showDetails.set(false);
+        uistate.listMenuVisible.set(false);
+        uistate.taskMenuVisible.set(false);
+        uistate.detailMenuVisible.set(false);
         selectedTask.set(null);
         history.pushState(null, this.name, "/list/" + this._id);
     },

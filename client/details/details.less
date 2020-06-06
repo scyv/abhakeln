@@ -7,6 +7,38 @@
     flex-shrink: 1;
     padding: 10px;
 
+    .compDetailsHeader {
+        margin-bottom: -0.25rem;
+        flex-shrink: 0;
+        .compDetailMenu {
+            flex-shrink: 0;
+            display: block;
+            width: 100%;
+            margin: 0;
+            height: 0;
+            padding: 0;
+            border: 0;
+            opacity: 0;
+            margin-bottom: 10px;
+            transition-duration: 100ms;
+            transition-property: height, padding, opacity;
+            transition-timing-function: ease-out;
+            overflow: hidden;
+            overflow-y: auto;
+
+            &.is-active {
+                display: block;
+                height: auto;
+                padding: 20px;
+                opacity: 1;
+            }
+
+            .item {
+                cursor: pointer;
+            }
+        }
+    }
+
     .notes {
         padding-left: 39px;
         margin-top: 11px;

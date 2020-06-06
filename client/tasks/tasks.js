@@ -14,6 +14,8 @@ Template.tasks.events({
         uistate.currentView.set(uistate.VIEW_LISTS);
         selectedTask.set(null);
         selectedList.set(null);
+        uistate.taskMenuVisible.set(false);
+        uistate.detailMenuVisible.set(false);
         history.pushState(null, "", "/");
     },
     "click #tasks .burger-button"() {
@@ -22,14 +24,22 @@ Template.tasks.events({
     "click .miRenameList"() {
         $("#dlgRenameList").modal("show");
     },
-
+    "click .miDeleteList"() {
+        const listId = selectedList.get();
+        $("#tasks .navBack").click();
+        Meteor.call("deleteList", listId);
+    },
     "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"() {
         Meteor.call("toggleTaskDone", this);
         return false;
     },
-    "click #opentasks label.ah-checkbox, click #donetasks label.ah-checkbox"() {
+    "click #opentasks label.ah-checkbox, click #donetasks label.ah-checkbox"(evt) {
+        evt.preventDefault();
         selectedTask.set(this._id);
         uistate.showDetails.set(true);
+        uistate.listMenuVisible.set(false);
+        uistate.taskMenuVisible.set(false);
+        uistate.detailMenuVisible.set(false);
         history.pushState(null, this.task, "/list/" + this.list + "/task/" + this._id);
         uistate.currentView.set(uistate.VIEW_DETAILS);
         return false;
@@ -98,6 +108,18 @@ Template.tasks.helpers({
         const month = date.getMonth() + 1 + "";
         const year = date.getFullYear() + "";
         return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0");
+    },
+    reminderDate() {
+        if (!this.reminder) {
+            return null;
+        }
+        const date = new Date(this.reminder);
+        const day = date.getDate() + "";
+        const month = date.getMonth() + 1 + "";
+        const year = date.getFullYear() + "";
+        const hour = date.getHours() + "";
+        const minute = date.getMinutes() + "";
+        return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0") + " " + hour.padStart(2, "0") + ":" + minute.padStart(2, "0");
     },
     opentasks() {
         return Tasks.find({ done: false, list: selectedList.get() }, { sort: { createdAt: -1 } }).map(decryptTask);

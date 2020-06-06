@@ -24,6 +24,7 @@ export const uistate = {
     currentView: new ReactiveVar(this.VIEW_LISTS),
     listMenuVisible: new ReactiveVar(false),
     taskMenuVisible: new ReactiveVar(false),
+    detailMenuVisible: new ReactiveVar(false),
     progressbarVisible: new ReactiveVar(false),
     progressbarPercent: new ReactiveVar(0),
     progressbarLabel: new ReactiveVar(""),

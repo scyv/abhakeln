@@ -1,9 +1,9 @@
 import { Lists } from "../../both/collections";
 import { selectedList, masterKey } from "../storage";
 import { Encryption } from "../encryption";
+import { uistate } from "../main";
 
 import "./dlgRenameList.html";
-import { uistate } from "../main";
 
 const crypto = new Encryption();
 

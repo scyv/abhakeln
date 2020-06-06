@@ -47,6 +47,12 @@ Meteor.methods({
         checkUserOwnsList(this, listId);
         Lists.update({ _id: listId }, { $set: { name: newName } });
     },
+    deleteList(listId) {
+        check(listId, String);
+
+        checkUserOwnsList(this, listId);
+        Lists.remove(listId);
+    },
     createTask(taskData) {
         checkUserLoggedIn(this);
         check(taskData.task, String);
@@ -83,6 +89,21 @@ Meteor.methods({
         } else {
             Tasks.update({ _id: taskData._id }, { $set: { done: true, doneAt: new Date() } });
         }
+    },
+    renameTask(taskId, newName) {
+        check(taskId, String);
+        check(newName, String);
+
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.update({ _id: task._id }, { $set: { task: newName } });
+    },
+    deleteTask(taskId) {
+        check(taskId, String);
+
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.remove(taskId);
     },
     setReminder(taskId, reminder) {
         checkUserLoggedIn(this);

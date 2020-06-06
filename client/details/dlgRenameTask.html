@@ -1,25 +1,25 @@
-<template name="dlgRenameList">
-    <div class="ui modal" id="dlgRenameList">
-        <div class="header">Liste umbenennen</div>
+<template name="dlgRenameTask">
+    <div class="ui modal" id="dlgRenameTask">
+        <div class="header">Aufgabe umbenennen</div>
         <div class="scrolling content">
             <div class="ui fluid input">
-                <input type="text" id="newListName" placeholder="Neuer Name" value="{{listName}}">
+                <input type="text" id="newTaskName" placeholder="Neuer Name" value="{{taskName}}">
             </div>
         </div>
         <div class="actions">
             <div class="ui black deny button">
                 Abbruch
             </div>
-            {{>dlgRenameList_confirm}}
+            {{>dlgRenameTask_confirm}}
         </div>
 
     </div>
 
 </template>
 
-<template name="dlgRenameList_confirm">
+<template name="dlgRenameTask_confirm">
     <div class="ui positive right labeled icon button">
-        Liste Umbenennen
+        Aufgabe Umbenennen
         <i class="checkmark icon"></i>
     </div>
 </template>

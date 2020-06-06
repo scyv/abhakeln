@@ -1,12 +1,41 @@
 <template name="details">
     {{#let t=task}}
     <div id="details">
-        <h3 class="ui header">
-            <i class="arrow circle left icon navIcon navBack"></i>
-            <div class="content">
-                {{t.task}}
+        <div class="ui grid compDetailsHeader">
+            <div class="thirteen wide column">
+                <h3 class="ui header">
+                    <i class="arrow circle left icon navIcon navBack"></i>
+                    <div class="content taskName">
+                        {{t.task}}
+                    </div>
+                </h3>
             </div>
-        </h3>
+            <div class="three wide column">
+                <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="ui segment compDetailMenu {{menuVisible}}">
+                <div class="ui large relaxed divided list">
+                    <div class="item miRenameTask">
+                        <i class="help icon"></i>
+                        <div class="content">
+                            <div class="header">Umbenennen</div>
+                            Benennen Sie die Aufgabe um.
+                        </div>
+                    </div>
+                    <div class="item miDeleteTask">
+                        <i class="trash icon"></i>
+                        <div class="content">
+                            <div class="header">Aufgabe Löschen</div>
+                            Löschen Sie die Aufgabe, wenn sie nicht mehr gebraucht wird.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="ui form">
             <div class="field">
                 <label>Erinnerung:</label>
@@ -55,5 +84,6 @@
             </div>
         </div>
     </div>
+    {{> dlgRenameTask}}
     {{/let}}
 </template>
