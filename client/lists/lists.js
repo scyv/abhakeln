@@ -1,8 +1,8 @@
 import "./lists.html";
 
 import { Encryption } from "../encryption";
-import { masterKey, selectedList, selectedTask } from "../storage";
-import { Lists, Tasks } from "../../both/collections";
+import { masterKey, selectedList, selectedTask, resetStorage } from "../storage";
+import { Lists, Tasks, COLLECTIONS } from "../../both/collections";
 
 import { listsHandle, uistate } from "../main";
 
@@ -98,6 +98,8 @@ Template.lists.events({
                 } else {
                     evt.target.value = "";
                     selectedList.set(listId);
+                    Meteor.subscribe(COLLECTIONS.LISTS);
+                    Meteor.subscribe(COLLECTIONS.TASKS);
                 }
             });
         }
@@ -107,5 +109,9 @@ Template.lists.events({
     },
     "click .miImportFromWunderlist"() {
         $("#dlgWunderlistImport").modal("show");
+    },
+    "click .miLogout"() {
+        resetStorage();
+        Accounts.logout();
     },
 });

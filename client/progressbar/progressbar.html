@@ -1,0 +1,12 @@
+<template name="progressBar">
+    {{#if visible}}
+    <div class="sixteen wide column compProgressbar">
+        <div class="ui indicating progress" data-percent="{{percent}}" data-total="100">
+            <div class="bar">
+                <div class="progress"></div>
+            </div>
+            <div class="label">{{label}}</div>
+        </div>
+    </div>
+    {{/if}}
+</template>

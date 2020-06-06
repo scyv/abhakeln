@@ -6,6 +6,7 @@ import "./login/login";
 import "./lists/lists";
 import "./tasks/tasks";
 import "./details/details";
+import "./progressbar/progressbar";
 import "./wunderlist/import";
 
 import "./main.html";
@@ -23,7 +24,11 @@ export const uistate = {
     currentView: new ReactiveVar(this.VIEW_LISTS),
     listMenuVisible: new ReactiveVar(false),
     taskMenuVisible: new ReactiveVar(false),
+    progressbarVisible: new ReactiveVar(false),
+    progressbarPercent: new ReactiveVar(0),
+    progressbarLabel: new ReactiveVar(""),
 };
+window.uistate = uistate;
 
 Tracker.autorun(() => {
     listsHandle = Meteor.subscribe(COLLECTIONS.LISTS);

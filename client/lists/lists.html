@@ -16,8 +16,8 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="ui inverted segment compListMenu {{menuVisible}}">
-                <div class="ui large inverted relaxed divided list">
+            <div class="ui segment compListMenu {{menuVisible}}">
+                <div class="ui large relaxed divided list">
                     <div class="item miHelp">
                         <i class="help icon"></i>
                         <div class="content">
@@ -41,6 +41,7 @@
                     </div>
                 </div>
             </div>
+            {{> progressBar}}
         </div>
         {{#if listsLoading}}
         <div class="ui container">
@@ -64,7 +65,7 @@
             {{/if}}
             {{else}}
             <h2 class="ui icon header">
-                <i class="settings icon"></i>
+                <i class="list ul icon"></i>
                 <div class="content">
                     Neue Liste erstellen
                     <div class="sub header">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'. </div>
@@ -73,7 +74,7 @@
             {{/each}}
         </div>
         <div class="ui icon large input compCreateList">
-            <input type="text" placeholder="Neue Liste erstellen">
+            <input type="text" placeholder="Liste erstellen">
             <i class="plus circle icon"></i>
         </div>
         {{/if}}

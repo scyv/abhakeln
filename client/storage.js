@@ -25,6 +25,12 @@ export class ReactiveStorage {
     }
 }
 
+export const resetStorage = () => {
+    masterKey.set(null);
+    selectedList.set(null);
+    selectedTask.set(null);
+};
+
 const storage = new ReactiveStorage();
 export const masterKey = storage.handle("masterKey", "");
 export const selectedList = storage.handle("selectedList", null);
