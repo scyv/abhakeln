@@ -75,7 +75,7 @@
         </div>
         <div class="ui icon large input compCreateList">
             <input type="text" placeholder="Liste erstellen">
-            <i class="plus circle icon"></i>
+            <i class="plus circle link icon"></i>
         </div>
         {{/if}}
     </div>
@@ -91,7 +91,7 @@
 </template>
 
 <template name="list">
-    <div class="item {{isActive}}">
+    <div class="item {{isActive}} id-{{_id}}">
         {{#if dueItems}}
         <div class="right floated content">
             <div class="ui red circular mini label">{{dueItems}}</div>

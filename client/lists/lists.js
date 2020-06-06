@@ -83,25 +83,32 @@ Template.lists.events({
         selectedTask.set(null);
         history.pushState(null, this.name, "/list/" + this._id);
     },
+    "click .compCreateList .link"() {
+        const input = $(".compCreateList input");
+        const listData = {
+            name: input.val().trim(),
+        };
+        if (listData.name === "") {
+            return;
+        }
+        const encryptedListData = crypto.encryptListData(listData, Meteor.userId(), masterKey.get(), true);
+        Meteor.call("createList", encryptedListData, (err, listId) => {
+            if (err) {
+                alert(err);
+            } else {
+                input.val("");
+                selectedList.set(listId);
+                window.setTimeout(() => {
+                    $(`.id-${listId}`)[0].scrollIntoView();
+                }, 500);
+                Meteor.subscribe(COLLECTIONS.LISTS);
+                Meteor.subscribe(COLLECTIONS.TASKS);
+            }
+        });
+    },
     "keydown .compCreateList input"(evt) {
         if (evt.keyCode === 13) {
-            const listData = {
-                name: evt.target.value.trim(),
-            };
-            if (listData.name === "") {
-                return;
-            }
-            const encryptedListData = crypto.encryptListData(listData, Meteor.userId(), masterKey.get(), true);
-            Meteor.call("createList", encryptedListData, (err, listId) => {
-                if (err) {
-                    alert(err);
-                } else {
-                    evt.target.value = "";
-                    selectedList.set(listId);
-                    Meteor.subscribe(COLLECTIONS.LISTS);
-                    Meteor.subscribe(COLLECTIONS.TASKS);
-                }
-            });
+            $(".compCreateList .link").click();
         }
     },
     "click #lists .burger-button"() {

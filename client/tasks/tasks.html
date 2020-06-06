@@ -19,8 +19,8 @@
         <div class="ui grid compTasksHeader">
             <div class="thirteen wide column">
                 <h3 class="ui header">
-                    <i class="arrow circle left icon navIcon navBack"></i>
-                    <div class="content">
+                    <i class="arrow circle left icon link navIcon navBack"></i>
+                    <div class="content listName">
                         {{listname}}
                     </div>
                 </h3>
@@ -32,8 +32,8 @@
                     <span aria-hidden="true"></span>
                 </a>
             </div>
-            <div class="ui inverted segment compTaskMenu {{menuVisible}}">
-                <div class="ui large inverted relaxed divided list">
+            <div class="ui segment compTaskMenu {{menuVisible}}">
+                <div class="ui large relaxed divided list">
                     <div class="item miRenameList">
                         <i class="help icon"></i>
                         <div class="content">
@@ -54,7 +54,7 @@
 
         <div class="ui icon large input compCreateTask">
             <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
-            <i class="plus circle icon"></i>
+            <i class="plus circle link icon"></i>
         </div>
         <div id="tasklist">
             <div id="opentasks">

@@ -70,10 +70,6 @@ body {
     cursor: pointer;
 }
 
-.navIcon:hover {
-    color: #aeaeae;
-}
-
 .blinking {
     animation: blinkingText 1.2s infinite;
 }

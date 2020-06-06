@@ -37,27 +37,34 @@ Template.tasks.events({
     "input #showDone"() {
         showDoneTasks.set(!showDoneTasks.get());
     },
+    "click .compCreateTask .link"() {
+        const list = Lists.findOne(selectedList.get());
+        const input = $(".compCreateTask input");
+        if (!list) return;
+        const taskData = {
+            task: input.val().trim(),
+            list: list._id,
+        };
+        if (taskData.task === "") {
+            return;
+        }
+
+        const encryptedTaskData = crypto.encryptItemData(taskData, list, Meteor.userId(), masterKey.get());
+        Meteor.call("createTask", encryptedTaskData, (err) => {
+            if (err) {
+                alert(err);
+            } else {
+                input.val("");
+            }
+        });
+    },
     "keydown .compCreateTask input"(evt) {
         if (evt.keyCode === 13) {
-            const list = Lists.findOne(selectedList.get());
-            if (!list) return;
-            const taskData = {
-                task: evt.target.value.trim(),
-                list: list._id,
-            };
-            if (taskData.task === "") {
-                return;
-            }
-
-            const encryptedTaskData = crypto.encryptItemData(taskData, list, Meteor.userId(), masterKey.get());
-            Meteor.call("createTask", encryptedTaskData, (err, taskId) => {
-                if (err) {
-                    alert(err);
-                } else {
-                    evt.target.value = "";
-                }
-            });
+            $(".compCreateTask .link").click();
         }
+    },
+    "click .compTasksHeader .listName"() {
+        $("#dlgRenameList").modal("show");
     },
 });
 

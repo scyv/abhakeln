@@ -40,6 +40,13 @@ Meteor.methods({
         };
         return Lists.insert(list);
     },
+    renameList(listId, newName) {
+        check(listId, String);
+        check(newName, String);
+
+        checkUserOwnsList(this, listId);
+        Lists.update({ _id: listId }, { $set: { name: newName } });
+    },
     createTask(taskData) {
         checkUserLoggedIn(this);
         check(taskData.task, String);
