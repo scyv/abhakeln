@@ -12,7 +12,7 @@ export class Encryption {
     }
 
     encrypt(message, password) {
-        return sjcl.encrypt(password, message, { iter: 2500 });
+        return sjcl.encrypt(password, message, { iter: 2500, ts: 128, ks: 256 });
     }
 
     decrypt(ciphertext, password) {
