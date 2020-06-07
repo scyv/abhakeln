@@ -1,7 +1,8 @@
 @import "/lib/semantic.min.css";
 
-body {
-    /*height: 100vh;*/
+.main {
+    background: #ffffff;
+    height: 100vh;
     overflow: hidden;
     display: flex;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);

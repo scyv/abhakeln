@@ -29,6 +29,7 @@ export const resetStorage = () => {
     masterKey.set(null);
     selectedList.set(null);
     selectedTask.set(null);
+    showLandingPage.set(true);
 };
 
 const storage = new ReactiveStorage();
@@ -36,3 +37,5 @@ export const masterKey = storage.handle("masterKey", "");
 export const selectedList = storage.handle("selectedList", null);
 export const selectedTask = storage.handle("selectedTask", null);
 export const showDoneTasks = storage.handle("showDoneTasks", false);
+export const showLandingPage = storage.handle("showLandingPage", true);
+export const cookieBannerShowed = storage.handle("cookieBannerShowed", false);

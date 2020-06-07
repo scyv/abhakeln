@@ -1,7 +1,7 @@
 import "./lists.html";
 
 import { Encryption } from "../encryption";
-import { masterKey, selectedList, selectedTask, resetStorage } from "../storage";
+import { masterKey, selectedList, selectedTask, resetStorage, showLandingPage } from "../storage";
 import { Lists, Tasks, COLLECTIONS } from "../../both/collections";
 
 import { listsHandle, uistate } from "../main";
@@ -122,6 +122,13 @@ Template.lists.events({
     },
     "click .miLogout"() {
         resetStorage();
+        uistate.listMenuVisible.set(false);
+        history.replaceState(null, "/", "/");
         Accounts.logout();
+    },
+    "click .clickableTitle"() {
+        history.pushState(null, "/", "/");
+        uistate.currentView.set(uistate.VIEW_LANDING);
+        showLandingPage.set(true);
     },
 });

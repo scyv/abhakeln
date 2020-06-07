@@ -1,6 +1,7 @@
 import { COLLECTIONS } from "../both/collections";
-import { selectedList, selectedTask } from "./storage";
+import { selectedList, selectedTask, showLandingPage } from "./storage";
 
+import "./landing/landing";
 import "../both/methods";
 import "./login/login";
 import "./lists/lists";
@@ -16,12 +17,13 @@ export let doneTasksHandle;
 export let listsHandle;
 
 export const uistate = {
+    VIEW_LANDING: "landing",
     VIEW_LISTS: "lists",
     VIEW_TASKS: "tasks",
     VIEW_DETAILS: "details",
     isMobile: new ReactiveVar(false),
     showDetails: new ReactiveVar(false),
-    currentView: new ReactiveVar(this.VIEW_LISTS),
+    currentView: new ReactiveVar(this.VIEW_LANDING),
     listMenuVisible: new ReactiveVar(false),
     taskMenuVisible: new ReactiveVar(false),
     detailMenuVisible: new ReactiveVar(false),
@@ -60,10 +62,20 @@ const route = () => {
     selectedList.set(null);
     selectedTask.set(null);
     uistate.showDetails.set(false);
-    uistate.currentView.set(uistate.VIEW_LISTS);
+    if (showLandingPage.get()) {
+        uistate.currentView.set(uistate.VIEW_LANDING);
+    } else {
+        uistate.currentView.set(uistate.VIEW_LISTS);
+    }
 };
 
 window.onpopstate = function (evt) {
     route();
 };
 route();
+
+Template.main.helpers({
+    showLanding() {
+        return showLandingPage.get() && uistate.currentView.get() === uistate.VIEW_LANDING;
+    },
+});

@@ -26,13 +26,21 @@
 </head>
 
 <body id="app">
-
-  {{#if currentUser }}
-  {{> lists}}
-  {{> wunderlistImport}}
-  {{else}}
-  {{> login}}
-  {{/if}}
-
   <script src="/lib/semantic.min.js"></script>
+  {{> main}}
 </body>
+
+<template name="main">
+  {{#if showLanding}}
+  {{> landing}}
+  {{else}}
+  <div class="main">
+    {{#if currentUser }}
+    {{> lists}}
+    {{> wunderlistImport}}
+    {{else}}
+    {{> login}}
+    {{/if}}
+  </div>
+  {{/if}}
+</template>
