@@ -1,0 +1,25 @@
+<template name="dlgFolder">
+    <div class="ui modal" id="dlgFolder">
+        <div class="header">Liste gruppieren</div>
+        <div class="scrolling content">
+            <div class="ui fluid input">
+                <input type="text" id="newFolder" placeholder="Gruppe" value="{{listFolder}}">
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Abbruch
+            </div>
+            {{>dlgFolder_confirm}}
+        </div>
+
+    </div>
+
+</template>
+
+<template name="dlgFolder_confirm">
+    <div class="ui positive right labeled icon button">
+        Liste Gruppieren
+        <i class="checkmark icon"></i>
+    </div>
+</template>

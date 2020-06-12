@@ -6,6 +6,7 @@ import { uistate, tasksHandle, listsHandle, doneTasksHandle } from "../main";
 
 import "./tasks.html";
 import "./dlgRenameList";
+import "./dlgFolder";
 
 const crypto = new Encryption();
 Template.tasks.events({
@@ -23,6 +24,9 @@ Template.tasks.events({
     },
     "click .miRenameList"() {
         $("#dlgRenameList").modal("show");
+    },
+    "click .miSetFolder"() {
+        $("#dlgFolder").modal("show");
     },
     "click .miDeleteList"() {
         const listId = selectedList.get();

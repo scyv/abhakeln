@@ -47,6 +47,28 @@ Meteor.methods({
         checkUserOwnsList(this, listId);
         Lists.update({ _id: listId }, { $set: { name: newName } });
     },
+    setFolder(listId, newFolder) {
+        check(listId, String);
+        check(newFolder, String);
+
+        checkUserOwnsList(this, listId);
+        if (this.isSimulation) {
+            Lists.update(
+                { _id: listId },
+                {
+                    $set: { folder: newFolder },
+                }
+            );
+        } else {
+            Lists.update(
+                { _id: listId },
+                {
+                    $set: { "owners.$[forUser].folder": newFolder },
+                },
+                { arrayFilters: [{ "forUser.userId": { $eq: this.userId } }] }
+            );
+        }
+    },
     deleteList(listId) {
         check(listId, String);
 

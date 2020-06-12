@@ -52,16 +52,19 @@ export class Encryption {
     }
 
     decryptListData(listData, userId, masterKey) {
-        const listKey = this.decryptListKey(listData, userId, masterKey);
+        const ownerData = this.findOwnerInfo(listData, userId);
+        const listKey = this.decryptListKey(listData, userId, masterKey, ownerData);
         const copy = Object.assign({}, listData);
         if (listKey) {
             copy.name = this.decrypt(listData.name, listKey);
-            if (listData.folder) {
+            if (ownerData.folder) {
+                copy.folder = this.decrypt(ownerData.folder, listKey);
+            } else if (listData.folder) {
+                // listData.folder is used, when there is no user override
                 copy.folder = this.decrypt(listData.folder, listKey);
             }
         } else {
             copy.nokey = true;
-            const ownerData = this.findOwnerInfo(listData, userId);
             copy.name = ownerData.listName + " von " + ownerData.sharedBy;
         }
         return copy;
@@ -84,12 +87,12 @@ export class Encryption {
         return copy;
     }
 
-    decryptListKey(listData, userId, masterKey) {
+    decryptListKey(listData, userId, masterKey, ownerInfo = null) {
         const cachedKey = listKeyCache[listData._id];
         if (cachedKey) {
             return cachedKey;
         }
-        const listKey = this.findOwnerInfo(listData, userId).key;
+        const listKey = (ownerInfo || this.findOwnerInfo(listData, userId)).key;
         if (!listKey) {
             return undefined;
         }

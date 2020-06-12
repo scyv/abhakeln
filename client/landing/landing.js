@@ -1,5 +1,6 @@
 import "./landing.html";
 import { showLandingPage, cookieBannerShowed } from "../storage";
+import { uistate } from "../main";
 
 Template.landing.onRendered(() => {
     window.setTimeout(() => {
@@ -46,5 +47,6 @@ Template.landing.helpers({
 Template.landing.events({
     "click .lmiLogin"() {
         showLandingPage.set(false);
+        uistate.currentView.set(uistate.VIEW_LISTS);
     },
 });
