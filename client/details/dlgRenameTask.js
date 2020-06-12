@@ -26,7 +26,27 @@ Template.dlgRenameTask_confirm.events({
         const list = Lists.findOne(task.list);
         task.task = newName;
         const encryptedTask = crypto.encryptItemData(task, list, Meteor.userId(), masterKey.get());
-        Meteor.call("renameTask", id, encryptedTask.task, () => {
+        Meteor.call("renameTask", id, encryptedTask.task, (err) => {
+            if (err) {
+                $("body").toast({
+                    title: "Aufgabe nicht umbenannt!",
+                    class: "red",
+                    message: "Die Aufgabe wurde nicht umbenannt: " + err,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 10000,
+                });
+            } else {
+                $("body").toast({
+                    title: "Aufgabe umbenannt.",
+                    class: "green",
+                    message: "Die Aufgabe wurde umbenannt in: " + newName,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
+
             uistate.detailMenuVisible.set(false);
         });
     },

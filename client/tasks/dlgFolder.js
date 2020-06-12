@@ -21,7 +21,26 @@ Template.dlgFolder_confirm.events({
         const list = Lists.findOne(selectedList.get());
         list.folder = newFolder;
         const encryptedList = crypto.encryptListData(list, Meteor.userId(), masterKey.get());
-        Meteor.call("setFolder", id, encryptedList.folder, () => {
+        Meteor.call("setFolder", id, encryptedList.folder, (err) => {
+            if (err) {
+                $("body").toast({
+                    title: "Liste nicht gruppiert.",
+                    class: "red",
+                    message: "Die Liste wurde nicht gruppiert: " + err,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 10000,
+                });
+            } else {
+                $("body").toast({
+                    title: "Liste gruppiert.",
+                    class: "green",
+                    message: "Die Liste wurde gruppiert in: " + newFolder,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
             uistate.taskMenuVisible.set(false);
         });
     },

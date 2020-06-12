@@ -116,6 +116,26 @@ Template.details.events({
     "click .miDeleteTask"() {
         const taskId = selectedTask.get();
         $("#details .navBack").click();
-        Meteor.call("deleteTask", taskId);
+        Meteor.call("deleteTask", taskId, (err) => {
+            if (err) {
+                $("body").toast({
+                    title: "Aufgabe nicht gelöscht!",
+                    class: "red",
+                    message: "Die Aufgabe wurde nicht gelöscht: " + err,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 10000,
+                });
+            } else {
+                $("body").toast({
+                    title: "Aufgabe gelöscht.",
+                    class: "green",
+                    message: "Die Aufgabe wurde gelöscht",
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
+        });
     },
 });

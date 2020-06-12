@@ -21,7 +21,27 @@ Template.dlgRenameList_confirm.events({
         const list = Lists.findOne(selectedList.get());
         list.name = newName;
         const encryptedList = crypto.encryptListData(list, Meteor.userId(), masterKey.get());
-        Meteor.call("renameList", id, encryptedList.name, () => {
+        Meteor.call("renameList", id, encryptedList.name, (err) => {
+            if (err) {
+                $("body").toast({
+                    title: "Liste nicht umbenannt!",
+                    class: "red",
+                    message: "Die Liste wurde nicht umbenannt: " + err,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 10000,
+                });
+            } else {
+                $("body").toast({
+                    title: "Liste umbenannt.",
+                    class: "green",
+                    message: "Die Liste wurde umbenannt in: " + newName,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
+
             uistate.taskMenuVisible.set(false);
         });
     },
