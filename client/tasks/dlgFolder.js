@@ -8,9 +8,30 @@ import "./dlgFolder.html";
 const crypto = new Encryption();
 
 Template.dlgFolder.helpers({
-    listFolder() {
+    list() {
         const list = Lists.findOne(selectedList.get());
-        return list ? crypto.decryptListData(list, Meteor.userId(), masterKey.get()).folder : "";
+        return list ? crypto.decryptListData(list, Meteor.userId(), masterKey.get()) : "";
+    },
+});
+
+Template.dlgFolder_folders.helpers({
+    folders() {
+        const lists = Lists.find();
+        const folders = [];
+        lists.forEach((list) => {
+            const decryptedList = crypto.decryptListData(list, Meteor.userId(), masterKey.get());
+            if (decryptedList.folder && !folders.includes(decryptedList.folder)) {
+                folders.push(decryptedList.folder);
+            }
+        });
+        folders.sort();
+        return folders;
+    },
+});
+
+Template.dlgFolder_folders.events({
+    "click .tag"(evt) {
+        $("#newFolder").val(evt.target.textContent);
     },
 });
 

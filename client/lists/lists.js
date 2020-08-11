@@ -19,7 +19,7 @@ Template.lists.helpers({
     listsLoading() {
         return !listsHandle.ready();
     },
-    taskTree() {
+    listTree() {
         const userId = Meteor.userId();
         const key = masterKey.get();
         const folders = {};
@@ -37,6 +37,21 @@ Template.lists.helpers({
             } else {
                 tree.push(list);
             }
+        });
+        tree.sort((a, b) => {
+            if (a.folder && b.folder) {
+                // both are folder
+                return a.folder < b.folder ? -1 : a.folder === b.folder ? 0 : 1;
+            } else if (a.folder) {
+                // only a is folder
+                return 1;
+            } else if (b.folder) {
+                // only b is folder
+                return -1;
+            }
+
+            // no folder
+            return a.name < b.name ? -1 : a.name === b.name ? 0 : 1;
         });
         return tree;
     },

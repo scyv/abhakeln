@@ -1,10 +1,12 @@
 <template name="dlgFolder">
     <div class="ui modal" id="dlgFolder">
-        <div class="header">Liste gruppieren</div>
+        {{#with list}}
+        <div class="header">Liste {{name}} gruppieren</div>
         <div class="scrolling content">
             <div class="ui fluid input">
-                <input type="text" id="newFolder" placeholder="Gruppe" value="{{listFolder}}">
+                <input type="text" id="newFolder" placeholder="Gruppe" value="{{folder}}">
             </div>
+            {{>dlgFolder_folders}}
         </div>
         <div class="actions">
             <div class="ui black deny button">
@@ -12,9 +14,18 @@
             </div>
             {{>dlgFolder_confirm}}
         </div>
+        {{/with}}
 
     </div>
 
+</template>
+
+<template name="dlgFolder_folders">
+    <div class="existingFolders">
+        {{#each folders}}
+        <a class="ui teal tag label">{{.}}</a>
+        {{/each}}
+    </div>
 </template>
 
 <template name="dlgFolder_confirm">
