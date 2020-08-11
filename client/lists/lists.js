@@ -34,6 +34,9 @@ Template.lists.helpers({
                     tree.push(folder);
                 }
                 folder.lists.push(list);
+                folder.lists.sort((a, b) => {
+                    return a.name < b.name ? -1 : a.name === b.name ? 0 : 1;
+                });
             } else {
                 tree.push(list);
             }
