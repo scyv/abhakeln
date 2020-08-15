@@ -14,28 +14,39 @@ Template.dlgEnterList.helpers({
 
 Template.dlgEnterList_confirm.events({
     "click .button"() {
-        const key = crypto.decrypt(this.listKey, $("#listPassword").val());
-        const encryptedListKey = crypto.encrypt(key, masterKey.get());
-        Meteor.call("enterList", this.listId, encryptedListKey, (err) => {
-            if (err) {
-                $("body").toast({
-                    title: "Liste NICHT beigetreten.",
-                    class: "red",
-                    message: err.error,
-                    showProgress: "bottom",
-                    position: "bottom right",
-                    displayTime: 10000,
-                });
-            } else {
-                $("body").toast({
-                    title: "Liste geteilt.",
-                    class: "green",
-                    message: "Liste beigetreten.",
-                    showProgress: "bottom",
-                    position: "bottom right",
-                    displayTime: 3000,
-                });
-            }
-        });
+        try {
+            const key = crypto.decrypt(this.listKey, $("#listPassword").val());
+            const encryptedListKey = crypto.encrypt(key, masterKey.get());
+            Meteor.call("enterList", this.listId, encryptedListKey, (err) => {
+                if (err) {
+                    $("body").toast({
+                        title: "Liste NICHT beigetreten.",
+                        class: "red",
+                        message: err.error,
+                        showProgress: "bottom",
+                        position: "bottom right",
+                        displayTime: 10000,
+                    });
+                } else {
+                    $("body").toast({
+                        title: "Liste beigetreten.",
+                        class: "green",
+                        message: "Sie sind der Liste erfolgreich beigetreten.",
+                        showProgress: "bottom",
+                        position: "bottom right",
+                        displayTime: 3000,
+                    });
+                }
+            });
+        } catch (err) {
+            $("body").toast({
+                title: "Liste NICHT beigetreten.",
+                class: "red",
+                message: "Prüfen sie das Passwort",
+                showProgress: "bottom",
+                position: "bottom right",
+                displayTime: 10000,
+            });
+        }
     },
 });
