@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
-import { Lists, Tasks } from "./collections";
+import { Lists, Tasks, Shares } from "./collections";
 
 function checkUserLoggedIn(ctx) {
     if (!ctx.userId) {
@@ -144,5 +144,58 @@ Meteor.methods({
         const task = Tasks.findOne(taskId);
         checkUserOwnsList(this, task.list);
         Tasks.update({ _id: task._id }, { $set: { notes: notes } });
+    },
+    shareList(listId, listKey, shareWith) {
+        check(listId, String);
+        check(shareWith, String);
+        checkUserLoggedIn(this);
+        checkUserOwnsList(this, listId);
+        if (this.isSimulation) {
+            return;
+        }
+        const user = Meteor.users.findOne({ username: shareWith });
+        if (!user) {
+            throw new Meteor.Error("Benutzer " + shareWith + " nicht gefunden.");
+        }
+        const shareWithUserId = user._id;
+        Shares.remove({
+            listId: listId,
+            shareWith: shareWithUserId,
+        });
+        Shares.insert({
+            listId: listId,
+            shareWith: shareWithUserId,
+            listKey: listKey,
+        });
+    },
+    enterList(listId, listKey) {
+        check(listId, String);
+        checkUserLoggedIn(this);
+        const ownerData = {
+            userId: this.userId,
+            key: listKey,
+        };
+        Lists.update(
+            { _id: listId },
+            {
+                $push: { owners: ownerData },
+            }
+        );
+
+        Shares.remove({
+            listId: listId,
+            shareWith: this.userId,
+        });
+    },
+    leaveList(listId) {
+        check(listId, String);
+        checkUserLoggedIn(this);
+        checkUserOwnsList(this, listId);
+        Lists.update(
+            { _id: listId },
+            {
+                $pull: { owners: { userId: this.userId } },
+            }
+        );
     },
 });

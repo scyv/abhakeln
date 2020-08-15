@@ -15,6 +15,7 @@ import "./main.html";
 export let tasksHandle;
 export let doneTasksHandle;
 export let listsHandle;
+export let sharesHandle;
 
 export const uistate = {
     VIEW_LANDING: "landing",
@@ -36,6 +37,7 @@ window.uistate = uistate;
 Tracker.autorun(() => {
     listsHandle = Meteor.subscribe(COLLECTIONS.LISTS);
     tasksHandle = Meteor.subscribe(COLLECTIONS.TASKS);
+    sharesHandle = Meteor.subscribe(COLLECTIONS.SHARES);
     doneTasksHandle = Meteor.subscribe(COLLECTIONS.DONE_TASKS, selectedList.get());
 });
 

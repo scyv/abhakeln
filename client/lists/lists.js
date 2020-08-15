@@ -1,10 +1,11 @@
-import "./lists.html";
-
 import { Encryption } from "../encryption";
 import { masterKey, selectedList, selectedTask, resetStorage, showLandingPage } from "../storage";
-import { Lists, Tasks, COLLECTIONS } from "../../both/collections";
+import { Lists, Tasks, COLLECTIONS, Shares } from "../../both/collections";
 
-import { listsHandle, uistate } from "../main";
+import { listsHandle, sharesHandle, uistate } from "../main";
+
+import "./lists.html";
+import "./dlgEnterList";
 
 const crypto = new Encryption();
 
@@ -79,6 +80,9 @@ Template.lists.helpers({
     menuVisible() {
         return uistate.listMenuVisible.get() ? "is-active" : "";
     },
+    sharedLists() {
+        return sharesHandle.ready() && Shares.find().count();
+    },
 });
 
 Template.list.helpers({
@@ -90,6 +94,9 @@ Template.list.helpers({
     },
     isActive() {
         return selectedList.get() === this._id ? "selected" : "";
+    },
+    isShared() {
+        return this.owners.length > 1;
     },
 });
 
@@ -148,5 +155,8 @@ Template.lists.events({
         history.pushState(null, "/", "/");
         uistate.currentView.set(uistate.VIEW_LANDING);
         showLandingPage.set(true);
+    },
+    "click .miSharedLists"() {
+        $("#dlgEnterList").modal("show");
     },
 });

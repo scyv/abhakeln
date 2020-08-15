@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { COLLECTIONS, Lists, Tasks } from "../both/collections";
+import { COLLECTIONS, Lists, Tasks, Shares } from "../both/collections";
 import "../both/methods";
 
 Meteor.startup(() => {
@@ -27,6 +27,13 @@ Meteor.publish(COLLECTIONS.DONE_TASKS, function (listId) {
     if (this.userId && listId) {
         const list = Lists.findOne({ "owners.userId": this.userId, _id: listId });
         return Tasks.find({ done: true, list: list._id });
+    }
+    return [];
+});
+
+Meteor.publish(COLLECTIONS.SHARES, function () {
+    if (this.userId) {
+        return Shares.find({ shareWith: this.userId });
     }
     return [];
 });

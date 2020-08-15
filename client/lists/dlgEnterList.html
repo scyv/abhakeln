@@ -1,0 +1,33 @@
+<template name="dlgEnterList">
+    <div class="ui modal" id="dlgEnterList">
+        {{#with share}}
+        <div class="header">Liste beitreten</div>
+        <div class="content">
+            <form class="ui form info">
+                <div class="field">
+                    <label>Passwort:</label>
+                    <div class="ui left icon fluid input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" id="listPassword" placeholder="Passwort"
+                            autocomplete="new-password">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Abbruch
+            </div>
+            {{>dlgEnterList_confirm}}
+        </div>
+        {{/with}}
+
+    </div>
+</template>
+
+<template name="dlgEnterList_confirm">
+    <div class="ui positive right labeled icon button">
+        Liste Beitreten
+        <i class="checkmark icon"></i>
+    </div>
+</template>

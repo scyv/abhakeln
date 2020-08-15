@@ -7,6 +7,7 @@ import { uistate, tasksHandle, listsHandle, doneTasksHandle } from "../main";
 import "./tasks.html";
 import "./dlgRenameList";
 import "./dlgFolder";
+import "./dlgShare";
 
 const crypto = new Encryption();
 Template.tasks.events({
@@ -25,8 +26,28 @@ Template.tasks.events({
     "click .miRenameList"() {
         $("#dlgRenameList").modal("show");
     },
+    "click .miShareList"() {
+        $("#dlgShareList").modal("show");
+    },
     "click .miSetFolder"() {
         $("#dlgFolder").modal("show");
+    },
+    "click .miLeaveList"() {
+        const listId = selectedList.get();
+        $("#tasks .navBack").click();
+        Meteor.call("leaveList", listId, (err) => {
+            if (!err) {
+            } else {
+                $("body").toast({
+                    title: "Liste verlassen.",
+                    class: "green",
+                    message: "Sie haben die Liste verlassen.",
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
+        });
     },
     "click .miDeleteList"() {
         const listId = selectedList.get();
@@ -118,6 +139,13 @@ Template.tasks.helpers({
             return "";
         }
         return crypto.decryptListData(list, userId, key).name;
+    },
+    shared() {
+        const list = Lists.findOne(selectedList.get());
+        if (!list) {
+            return false;
+        }
+        return list.owners.length > 1;
     },
     showDoneEntries() {
         const showDone = showDoneTasks.get();

@@ -25,7 +25,7 @@
                     </div>
                 </h3>
             </div>
-            <div class="three wide column">
+            <div class="three wide column" style="padding: 0">
                 <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -34,20 +34,36 @@
             </div>
             <div class="ui segment compTaskMenu {{menuVisible}}">
                 <div class="ui large relaxed divided list">
+                    <div class="item miShareList">
+                        <i class="share alternate icon"></i>
+                        <div class="content">
+                            <div class="header">Teilen</div>
+                            Teilen Sie die Liste mit Ihren Liebsten, Freunden, Kollegen, ...
+                        </div>
+                    </div>
                     <div class="item miRenameList">
-                        <i class="help icon"></i>
+                        <i class="pencil alternate icon"></i>
                         <div class="content">
                             <div class="header">Umbenennen</div>
                             Benennen Sie die Liste um.
                         </div>
                     </div>
                     <div class="item miSetFolder">
-                        <i class="file import icon"></i>
+                        <i class="folder open icon"></i>
                         <div class="content">
                             <div class="header">Gruppieren</div>
                             Gruppieren Sie die Liste in einen Unterordner
                         </div>
                     </div>
+                    {{#if shared}}
+                    <div class="item miLeaveList">
+                        <i class="door open icon"></i>
+                        <div class="content">
+                            <div class="header">Liste verlassen</div>
+                            Verlassen Sie eine geteilte Liste. Sie wird bei anderen, die Zugriff haben nicht gelöscht.
+                        </div>
+                    </div>
+                    {{/if}}
                     <div class="item miDeleteList">
                         <i class="trash icon"></i>
                         <div class="content">
@@ -124,5 +140,6 @@
     </div>
     {{>dlgFolder}}
     {{>dlgRenameList}}
+    {{>dlgShareList}}
     {{/if}}
 </template>

@@ -4,6 +4,7 @@ export const COLLECTIONS = {
     TASKS: "tasks",
     DONE_TASKS: "doneTasks",
     LISTS: "lists",
+    SHARES: "shares",
 };
 
 /**
@@ -31,3 +32,11 @@ export const Tasks = new Mongo.Collection(COLLECTIONS.TASKS);
  * }]
  */
 export const Lists = new Mongo.Collection(COLLECTIONS.LISTS);
+
+/**
+ * _id: the id
+ * listId: the listId
+ * shareWith: the user to share the list with
+ * listKey: the encrypted list key
+ */
+export const Shares = new Mongo.Collection(COLLECTIONS.SHARES);

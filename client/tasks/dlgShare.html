@@ -1,0 +1,50 @@
+<template name="dlgShareList">
+    <div class="ui modal" id="dlgShareList">
+        {{#with list}}
+        <div class="header">Liste {{name}} teilen</div>
+        <div class="content">
+            <form class="ui form info">
+                <div class="field">
+                    <label>Teilen mit:</label>
+                    <div class="ui left icon fluid input">
+                        <i class="user icon"></i>
+                        <input type="text" name="targetUser" id="shareWith" autocomplete="nickname"
+                            placeholder="Teilen mit (Benutzername)">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Temporäres Passwort:</label>
+                    <div class="ui left icon fluid input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" id="tmpListPassword" placeholder="Temporäres Passwort"
+                            autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="ui info message">
+                    <div class="header">Temporäres Passwort</div>
+                    <ul class="list">
+                        <li>Das passwort wird nur für die Teilung verwendet.</li>
+                        <li>Es dient dazu, den Namen der Liste zu verschlüsseln und den Teilungsprozess abzusichern.
+                        </li>
+                        <li>Sie müssen es über einen separaten Kanal mitteilen.</li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Abbruch
+            </div>
+            {{>dlgShare_confirm}}
+        </div>
+        {{/with}}
+
+    </div>
+</template>
+
+<template name="dlgShare_confirm">
+    <div class="ui positive right labeled icon button">
+        Liste Teilen
+        <i class="checkmark icon"></i>
+    </div>
+</template>
