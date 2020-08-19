@@ -1,6 +1,7 @@
 import { Encryption } from "../encryption";
 import { masterKey, selectedList, selectedTask, resetStorage, showLandingPage } from "../storage";
 import { Lists, Tasks, COLLECTIONS, Shares } from "../../both/collections";
+import { WebNotifications } from "../notifications/web-notifications";
 
 import { listsHandle, sharesHandle, uistate } from "../main";
 
@@ -15,6 +16,19 @@ Template.lists.onRendered(() => {
     };
     $(window).on("resize", _.debounce(determineWideScreen, 100));
     determineWideScreen();
+
+    Meteor.setInterval(() => {
+        const now = new Date().toISOString();
+        const oneHourPast = new Date(new Date() - 60000 * 60).toISOString();
+        Tasks.find({ done: false, reminder: { $lte: now }, $or: [{ remindedAt: null }, { remindedAt: { $lte: oneHourPast } }] }).forEach((task) => {
+            const send = () => {
+                const decryptedTask = crypto.decryptItemData(task, Lists.findOne(task.list), Meteor.userId(), masterKey.get());
+                WebNotifications.notify("Erinnerung", decryptedTask.task);
+                Meteor.call("taskReminded", task._id);
+            };
+            _.debounce(send, 500)();
+        });
+    }, 60000);
 });
 Template.lists.helpers({
     listsLoading() {

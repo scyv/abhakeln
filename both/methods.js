@@ -112,6 +112,12 @@ Meteor.methods({
             Tasks.update({ _id: taskData._id }, { $set: { done: true, doneAt: new Date() } });
         }
     },
+    taskReminded(taskId) {
+        checkUserLoggedIn(this);
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Tasks.update({ _id: taskId }, { $set: { remindedAt: new Date().toISOString() } });
+    },
     renameTask(taskId, newName) {
         check(taskId, String);
         check(newName, String);
