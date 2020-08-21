@@ -37,6 +37,19 @@
             </div>
         </div>
         <div class="ui form">
+            <div class="ui center aligned container">
+                {{#if notDone t}}
+                <button class="ui right labeled primary icon button btnNowAbhakeln">
+                    <i class="check icon"></i>
+                    Jetzt abhakeln
+                </button>
+                {{else}}
+                <button class="ui right labeled disabled icon button btnNowAbhakeln" disabled="disabled">
+                    <i class="check icon"></i>
+                    Erledigt.
+                </button>
+                {{/if}}
+            </div>
             <div class="field">
                 <label>Erinnerung:</label>
                 <div class="ui calendar" id="notification_calendar">

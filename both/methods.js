@@ -74,6 +74,8 @@ Meteor.methods({
 
         checkUserOwnsList(this, listId);
         Lists.remove(listId);
+        Tasks.remove({ list: listId });
+        Shares.remove({ listId: listId });
     },
     createTask(taskData) {
         checkUserLoggedIn(this);

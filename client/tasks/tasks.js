@@ -74,8 +74,13 @@ Template.tasks.events({
             }
         });
     },
-    "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"() {
-        Meteor.call("toggleTaskDone", this);
+    "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"(evt) {
+        window.requestAnimationFrame(() => {
+            evt.target.parentElement.classList.add("fadeOut");
+            window.setTimeout(() => {
+                Meteor.call("toggleTaskDone", this);
+            }, 200);
+        });
         return false;
     },
     "click #opentasks label.ah-checkbox, click #donetasks label.ah-checkbox"(evt) {

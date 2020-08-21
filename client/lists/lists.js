@@ -97,6 +97,9 @@ Template.lists.helpers({
     sharedLists() {
         return sharesHandle.ready() && Shares.find().count();
     },
+    blinkOrNot() {
+        return sharesHandle.ready() && Shares.find().count() ? "blinking" : "";
+    },
 });
 
 Template.list.helpers({

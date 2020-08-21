@@ -81,6 +81,11 @@
     cursor: pointer;
 }
 
+.fadeOut {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+}
+
 .blinking {
     animation: blinkingText 1.2s infinite;
 }

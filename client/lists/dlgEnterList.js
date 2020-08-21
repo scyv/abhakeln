@@ -1,5 +1,5 @@
-import { Shares } from "../../both/collections";
-import { selectedList, masterKey } from "../storage";
+import { Shares, COLLECTIONS } from "../../both/collections";
+import { masterKey } from "../storage";
 import { Encryption } from "../encryption";
 
 import "./dlgEnterList.html";
@@ -36,6 +36,9 @@ Template.dlgEnterList_confirm.events({
                         position: "bottom right",
                         displayTime: 3000,
                     });
+                    window.setTimeout(() => {
+                        Meteor.subscribe(COLLECTIONS.TASKS);
+                    }, 1000);
                 }
             });
         } catch (err) {

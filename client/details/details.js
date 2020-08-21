@@ -66,6 +66,9 @@ Template.details.helpers({
         }
         return crypto.decryptItemData(task, Lists.findOne(task.list), Meteor.userId(), masterKey.get());
     },
+    notDone(task) {
+        return !task.done;
+    },
     noteEditMode(task) {
         return noteEditMode.get() || !task.notes;
     },
@@ -81,6 +84,9 @@ Template.details.events({
         selectedTask.set(null);
         uistate.detailMenuVisible.set(false);
         history.pushState(null, "", "/list/" + selectedList.get());
+    },
+    "click .btnNowAbhakeln"() {
+        Meteor.call("toggleTaskDone", Tasks.findOne(selectedTask.get()));
     },
     "blur #notification_calendar input"() {
         const selectedDate = $("#notification_calendar").calendar("get date");
