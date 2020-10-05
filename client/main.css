@@ -100,3 +100,17 @@
         background-color: #ffffff;
     }
 }
+
+.compListsHeader,
+.compTaskHeader,
+.compDetailHeader {
+    transition: padding 1s;
+}
+
+@media only screen and (max-width: 769px) {
+    .ui.grid.compListsHeader,
+    .ui.grid.compTasksHeader,
+    .ui.grid.compDetailsHeader {
+        padding: 10px;
+    }
+}

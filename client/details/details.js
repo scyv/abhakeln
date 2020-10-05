@@ -86,7 +86,18 @@ Template.details.events({
         history.pushState(null, "", "/list/" + selectedList.get());
     },
     "click .btnNowAbhakeln"() {
-        Meteor.call("toggleTaskDone", Tasks.findOne(selectedTask.get()));
+        const task = Tasks.findOne(selectedTask.get());
+        if (!task.done) {
+            $("body").toast({
+                title: "Aufgabe erledigt.",
+                class: "blue",
+                showProgress: "bottom",
+                position: "bottom right",
+                displayTime: 2000,
+            });
+            $("#details .navBack").trigger("click");
+        }
+        Meteor.call("toggleTaskDone", task);
     },
     "blur #notification_calendar input"() {
         const selectedDate = $("#notification_calendar").calendar("get date");
@@ -121,7 +132,7 @@ Template.details.events({
     },
     "click .miDeleteTask"() {
         const taskId = selectedTask.get();
-        $("#details .navBack").click();
+        $("#details .navBack").trigger("click");
         Meteor.call("deleteTask", taskId, (err) => {
             if (err) {
                 $("body").toast({
