@@ -3,6 +3,7 @@ import { Tasks, Lists } from "../../both/collections";
 import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
 import { Encryption } from "../encryption";
 import { uistate, tasksHandle, listsHandle, doneTasksHandle } from "../main";
+import { virtualLists } from "../lists/lists";
 
 import "./tasks.html";
 import "./dlgRenameList";
@@ -34,7 +35,7 @@ Template.tasks.events({
     },
     "click .miLeaveList"() {
         const listId = selectedList.get();
-        $("#tasks .navBack").click();
+        $("#tasks .navBack").trigger("click");
         Meteor.call("leaveList", listId, (err) => {
             if (!err) {
             } else {
@@ -51,7 +52,7 @@ Template.tasks.events({
     },
     "click .miDeleteList"() {
         const listId = selectedList.get();
-        $("#tasks .navBack").click();
+        $("#tasks .navBack").trigger("click");
         Meteor.call("deleteList", listId, (err) => {
             if (err) {
                 $("body").toast({
@@ -128,29 +129,29 @@ Template.tasks.events({
     },
 });
 
-const decryptTask = (task) => {
-    return crypto.decryptItemData(task, Lists.findOne(task.list), Meteor.userId(), masterKey.get());
+const decryptTask = (list) => (task) => {
+    return crypto.decryptItemData(task, list || Lists.findOne(task.list), Meteor.userId(), masterKey.get());
 };
 
 Template.tasks.helpers({
     tasksLoading() {
         return !(listsHandle.ready && tasksHandle.ready);
     },
-    listname() {
+    list() {
         const userId = Meteor.userId();
         const key = masterKey.get();
-        const list = Lists.findOne(selectedList.get());
-        if (!list) {
-            return "";
+        const selectedListId = selectedList.get();
+        if (selectedListId.indexOf("v-") >= 0) {
+            return virtualLists[selectedListId];
         }
-        return crypto.decryptListData(list, userId, key).name;
+        const list = Lists.findOne(selectedListId);
+        if (!list) {
+            return null;
+        }
+        return crypto.decryptListData(list, userId, key);
     },
     shared() {
-        const list = Lists.findOne(selectedList.get());
-        if (!list) {
-            return false;
-        }
-        return list.owners.length > 1;
+        return this.owners.length > 1;
     },
     showDoneEntries() {
         const showDone = showDoneTasks.get();
@@ -179,10 +180,15 @@ Template.tasks.helpers({
         return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0") + " " + hour.padStart(2, "0") + ":" + minute.padStart(2, "0");
     },
     opentasks() {
-        return Tasks.find({ done: false, list: selectedList.get() }, { sort: { createdAt: -1 } }).map(decryptTask);
+        const selectedListId = selectedList.get();
+        if (selectedListId.indexOf("v-") >= 0) {
+            return Tasks.find(virtualLists[selectedListId].query, { sort: { dueDate: 1 } }).map(decryptTask());
+        }
+
+        return Tasks.find({ done: false, list: selectedListId }, { sort: { createdAt: -1 } }).map(decryptTask(this));
     },
     donetasks() {
-        return doneTasksHandle.ready() && Tasks.find({ done: true }, { sort: { doneAt: -1 } }).map(decryptTask);
+        return doneTasksHandle.ready() && Tasks.find({ done: true }, { sort: { doneAt: -1 } }).map(decryptTask(this));
     },
     isreminder() {
         return this.reminder < new Date().toISOString() ? "red" : "";

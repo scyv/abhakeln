@@ -12,10 +12,11 @@ const noteEditMode = new ReactiveVar(false);
 
 const germanCalendar = {
     text: {
-        days: ["M", "D", "M", "D", "F", "S", "S"],
+        days: ["S", "M", "D", "M", "D", "F", "S"],
         months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
         monthsShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
     },
+    firstDayOfWeek: 1,
     formatter: {
         date: function (date, settings) {
             if (!date) return "";
@@ -101,14 +102,16 @@ Template.details.events({
     },
     "blur #notification_calendar input"() {
         const selectedDate = $("#notification_calendar").calendar("get date");
-        Meteor.call("setReminder", selectedTask.get(), selectedDate.toISOString());
+        Meteor.call("setReminder", selectedTask.get(), selectedDate ? selectedDate.toISOString() : null);
     },
     "blur #duedate_calendar input"() {
         const selectedDate = $("#duedate_calendar").calendar("get date");
-        selectedDate.setHours(0);
-        selectedDate.setMinutes(0);
-        selectedDate.setSeconds(0);
-        Meteor.call("setDuedate", selectedTask.get(), selectedDate.toISOString());
+        if (selectedDate) {
+            selectedDate.setHours(0);
+            selectedDate.setMinutes(0);
+            selectedDate.setSeconds(0);
+        }
+        Meteor.call("setDuedate", selectedTask.get(), selectedDate ? selectedDate.toISOString() : null);
     },
     "click .notes"() {
         noteEditMode.set(true);

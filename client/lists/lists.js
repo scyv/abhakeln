@@ -8,6 +8,48 @@ import { listsHandle, sharesHandle, uistate } from "../main";
 import "./lists.html";
 import "./dlgEnterList";
 
+const now = new Date();
+const endOfDay = new Date();
+endOfDay.setHours(23, 59, 59, 999);
+
+const startOfDay = new Date();
+startOfDay.setHours(0, 0, 0, 0);
+
+const startOfWeek = new Date();
+startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() == 0 ? -6 : 1));
+startOfWeek.setHours(0, 0, 0, 0);
+
+const endOfWeek = new Date();
+endOfWeek.setDate(endOfWeek.getDate() - endOfWeek.getDay() + (endOfWeek.getDay() == 0 ? 0 : 7));
+endOfWeek.setHours(23, 59, 59, 999);
+
+const virtualListOverdue = {
+    _id: "v-overdue",
+    virtual: 1,
+    name: "Überfällig",
+    owners: [],
+    query: { done: false, dueDate: { $lte: now.toISOString() } },
+};
+const virtualListToday = {
+    _id: "v-today",
+    virtual: 2,
+    name: "Heute",
+    owners: [],
+    query: { done: false, $and: [{ dueDate: { $lte: endOfDay.toISOString() } }, { dueDate: { $gte: startOfDay.toISOString() } }] },
+};
+const virtualListThisWeek = {
+    _id: "v-thisweek",
+    virtual: 3,
+    name: "Diese Woche",
+    owners: [],
+    query: { done: false, $and: [{ dueDate: { $lte: endOfWeek.toISOString() } }, { dueDate: { $gte: startOfWeek.toISOString() } }] },
+};
+export const virtualLists = {
+    "v-overdue": virtualListOverdue,
+    "v-today": virtualListToday,
+    "v-thisweek": virtualListThisWeek,
+};
+
 const crypto = new Encryption();
 
 Template.lists.onRendered(() => {
@@ -39,6 +81,11 @@ Template.lists.helpers({
         const key = masterKey.get();
         const folders = {};
         const tree = [];
+
+        tree.push(virtualListOverdue);
+        tree.push(virtualListToday);
+        tree.push(virtualListThisWeek);
+
         Lists.find().forEach((encryptedList) => {
             const list = crypto.decryptListData(encryptedList, userId, key);
             if (list.folder) {
@@ -57,6 +104,13 @@ Template.lists.helpers({
             }
         });
         tree.sort((a, b) => {
+            if (a.virtual && b.virtual) {
+                a.virtual < b.virtual ? -1 : a.virtual === b.virtual ? 0 : 1;
+            } else if (a.virtual) {
+                return -1;
+            } else if (b.virtual) {
+                return 1;
+            }
             if (a.folder && b.folder) {
                 // both are folder
                 return a.folder < b.folder ? -1 : a.folder === b.folder ? 0 : 1;

@@ -26,6 +26,9 @@ Meteor.publish(COLLECTIONS.TASKS, function () {
 Meteor.publish(COLLECTIONS.DONE_TASKS, function (listId) {
     if (this.userId && listId) {
         const list = Lists.findOne({ "owners.userId": this.userId, _id: listId });
+        if (!list) {
+            return [];
+        }
         return Tasks.find({ done: true, list: list._id });
     }
     return [];

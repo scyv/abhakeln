@@ -16,15 +16,18 @@
     </div>
     {{else}}
     <div id="tasks">
+        {{#with list}}
         <div class="ui grid compTasksHeader noselect">
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <i class="arrow circle left icon link navIcon navBack"></i>
                     <div class="content listName">
-                        {{listname}}
+                        {{name}}
                     </div>
                 </h3>
             </div>
+            {{#if virtual}}
+            {{else}}
             <div class="three wide column" style="padding: 0">
                 <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
@@ -73,12 +76,15 @@
                     </div>
                 </div>
             </div>
+            {{/if}}
         </div>
-
+        {{#if virtual}}
+        {{else}}
         <div class="ui icon large input compCreateTask">
             <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
             <i class="plus circle link icon"></i>
         </div>
+        {{/if}}
         <div id="tasklist" class="noselect">
             <div id="opentasks">
                 {{#each opentasks}}
@@ -103,6 +109,8 @@
                     <div class="ah-checkbox-check"></div>
                 </label>
                 {{else}}
+                {{#if virtual}}
+                {{else}}
                 <h2 class="ui icon container header segment compNoTasks">
                     <i class="tasks icon"></i>
                     <div class="content">
@@ -112,8 +120,11 @@
                         </div>
                     </div>
                 </h2>
+                {{/if}}
                 {{/each}}
             </div>
+            {{#if virtual}}
+            {{else}}
             {{#if donetasks}}
             <label class="show-done-checkbox ah-checkbox ah-checkbox-label">
                 <div class="ui mini blue basic label" style="float: right;">
@@ -136,7 +147,9 @@
             </div>
             {{/if}}
             {{/if}}
+            {{/if}}
         </div>
+        {{/with}}
     </div>
     {{>dlgFolder}}
     {{>dlgRenameList}}
