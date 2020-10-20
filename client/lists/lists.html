@@ -112,7 +112,7 @@
 </template>
 
 <template name="list">
-    <div class="item {{isActive}} id-{{_id}}">
+    <div class="item {{isActive}} id-{{_id}} {{isVirtual}}">
         {{#if dueItems}}
         <div class="right floated content">
             <div class="ui red circular mini label" data-tooltip="{{dueItems}} fällige Aufgaben"
@@ -126,6 +126,9 @@
         {{/if}}
 
         <div class="content">
+            {{#if isVirtual}}
+            <i class="{{icon}} icon"></i>
+            {{/if}}
             {{name}}
         </div>
     </div>

@@ -27,6 +27,7 @@ const virtualListOverdue = {
     _id: "v-overdue",
     virtual: 1,
     name: "Überfällig",
+    icon: "bell",
     owners: [],
     query: { done: false, dueDate: { $lte: now.toISOString() } },
 };
@@ -34,6 +35,7 @@ const virtualListToday = {
     _id: "v-today",
     virtual: 2,
     name: "Heute",
+    icon: "clock",
     owners: [],
     query: { done: false, $and: [{ dueDate: { $lte: endOfDay.toISOString() } }, { dueDate: { $gte: startOfDay.toISOString() } }] },
 };
@@ -41,6 +43,7 @@ const virtualListThisWeek = {
     _id: "v-thisweek",
     virtual: 3,
     name: "Diese Woche",
+    icon: "calendar alternate",
     owners: [],
     query: { done: false, $and: [{ dueDate: { $lte: endOfWeek.toISOString() } }, { dueDate: { $gte: startOfWeek.toISOString() } }] },
 };
@@ -103,28 +106,7 @@ Template.lists.helpers({
                 tree.push(list);
             }
         });
-        tree.sort((a, b) => {
-            if (a.virtual && b.virtual) {
-                a.virtual < b.virtual ? -1 : a.virtual === b.virtual ? 0 : 1;
-            } else if (a.virtual) {
-                return -1;
-            } else if (b.virtual) {
-                return 1;
-            }
-            if (a.folder && b.folder) {
-                // both are folder
-                return a.folder < b.folder ? -1 : a.folder === b.folder ? 0 : 1;
-            } else if (a.folder) {
-                // only a is folder
-                return 1;
-            } else if (b.folder) {
-                // only b is folder
-                return -1;
-            }
-
-            // no folder
-            return a.name < b.name ? -1 : a.name === b.name ? 0 : 1;
-        });
+        sortListTree(tree);
         return tree;
     },
     showLists() {
@@ -158,6 +140,9 @@ Template.lists.helpers({
 
 Template.list.helpers({
     dueItems() {
+        if (this.virtual) {
+            return Tasks.find(this.query).count();
+        }
         const now = new Date().toISOString();
         return Tasks.find({ list: this._id })
             .fetch()
@@ -165,6 +150,9 @@ Template.list.helpers({
     },
     isActive() {
         return selectedList.get() === this._id ? "selected" : "";
+    },
+    isVirtual() {
+        return this.virtual ? "virtual" : "";
     },
     isShared() {
         return this.owners.length > 1;
@@ -231,3 +219,28 @@ Template.lists.events({
         $("#dlgEnterList").modal("show");
     },
 });
+
+function sortListTree(tree) {
+    tree.sort((a, b) => {
+        if (a.virtual && b.virtual) {
+            a.virtual < b.virtual ? -1 : a.virtual === b.virtual ? 0 : 1;
+        } else if (a.virtual) {
+            return -1;
+        } else if (b.virtual) {
+            return 1;
+        }
+        if (a.folder && b.folder) {
+            // both are folder
+            return a.folder < b.folder ? -1 : a.folder === b.folder ? 0 : 1;
+        } else if (a.folder) {
+            // only a is folder
+            return 1;
+        } else if (b.folder) {
+            // only b is folder
+            return -1;
+        }
+
+        // no folder
+        return a.name < b.name ? -1 : a.name === b.name ? 0 : 1;
+    });
+}
