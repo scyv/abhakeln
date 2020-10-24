@@ -133,6 +133,12 @@ Template.details.events({
     "click #details .taskName"() {
         $("#dlgRenameTask").modal("show");
     },
+    "click .btnDeleteReminder"() {
+        Meteor.call("setReminder", selectedTask.get(), null);
+    },
+    "click .btnDeleteDuedate"() {
+        Meteor.call("setDuedate", selectedTask.get(), null);
+    },
     "click .miDeleteTask"() {
         const taskId = selectedTask.get();
         $("#details .navBack").trigger("click");
