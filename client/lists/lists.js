@@ -27,7 +27,7 @@ const virtualListOverdue = {
     _id: "v-overdue",
     virtual: 1,
     name: "Überfällig",
-    icon: "bell",
+    icon: "clock",
     owners: [],
     query: { done: false, dueDate: { $lte: now.toISOString() } },
 };
@@ -35,7 +35,7 @@ const virtualListToday = {
     _id: "v-today",
     virtual: 2,
     name: "Heute",
-    icon: "clock",
+    icon: "calendar day",
     owners: [],
     query: { done: false, $and: [{ dueDate: { $lte: endOfDay.toISOString() } }, { dueDate: { $gte: startOfDay.toISOString() } }] },
 };
@@ -47,10 +47,20 @@ const virtualListThisWeek = {
     owners: [],
     query: { done: false, $and: [{ dueDate: { $lte: endOfWeek.toISOString() } }, { dueDate: { $gte: startOfWeek.toISOString() } }] },
 };
+const virtualListReminder = {
+    _id: "v-reminder",
+    virtual: 4,
+    name: "Erinnerungen",
+    icon: "bell",
+    owners: [],
+    query: { done: false, reminder: { $ne: null } },
+};
+
 export const virtualLists = {
     "v-overdue": virtualListOverdue,
     "v-today": virtualListToday,
     "v-thisweek": virtualListThisWeek,
+    "v-reminder": virtualListReminder,
 };
 
 const crypto = new Encryption();
@@ -85,10 +95,6 @@ Template.lists.helpers({
         const folders = {};
         const tree = [];
 
-        tree.push(virtualListOverdue);
-        tree.push(virtualListToday);
-        tree.push(virtualListThisWeek);
-
         Lists.find().forEach((encryptedList) => {
             const list = crypto.decryptListData(encryptedList, userId, key);
             if (list.folder) {
@@ -106,6 +112,13 @@ Template.lists.helpers({
                 tree.push(list);
             }
         });
+
+        if (tree.length > 0) {
+            tree.push(virtualListOverdue);
+            tree.push(virtualListToday);
+            tree.push(virtualListThisWeek);
+            tree.push(virtualListReminder);
+        }
         sortListTree(tree);
         return tree;
     },
@@ -223,7 +236,7 @@ Template.lists.events({
 function sortListTree(tree) {
     tree.sort((a, b) => {
         if (a.virtual && b.virtual) {
-            a.virtual < b.virtual ? -1 : a.virtual === b.virtual ? 0 : 1;
+            return a.virtual < b.virtual ? -1 : a.virtual === b.virtual ? 0 : 1;
         } else if (a.virtual) {
             return -1;
         } else if (b.virtual) {
