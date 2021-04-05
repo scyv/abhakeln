@@ -20,7 +20,7 @@ workflows:
           . ./install_meteor.sh
           ./meteor remove-platform android
           ./meteor npm install
-          ./meteor build
+          ./meteor build .build --server https://www.abhakeln.de --architecture os.linux.x86_64
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
