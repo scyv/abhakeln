@@ -8,6 +8,10 @@ METEOR_INSTALL_DIR=".meteor_install"
 set -e
 set -u
 
+abs_path () {    
+    echo "$(cd $(dirname "$1");pwd)/$(basename "$1")"
+}
+
 rm -rf "$TARBALL_FILE"
 rm -rf "$INSTALL_TMPDIR"
 
@@ -46,12 +50,12 @@ if [ "$lastRelease" != "$RELEASE" ]; then
   cp "$LAUNCHER" "./meteor"
 
   echo "${RELEASE}" > ${METEOR_RELEASE_FILE}
-  echo Meteor is installed locally.
+  echo "Meteor is installed locally at $(abs_path "$METEOR_INSTALL_DIR")"
   rm -rf "$TARBALL_FILE"
   rm -rf "$INSTALL_TMPDIR"
 
-  export METEOR_WAREHOUSE_DIR="$(realpath "$METEOR_INSTALL_DIR")"
-  echo "run 'export METEOR_WAREHOUSE_DIR="$(realpath "$METEOR_INSTALL_DIR")"' to make meteor working in this local universe (otherwise, a subsequent run of meteor will install a seperate meteor copy in the ~./meteor dir)"
+  export METEOR_WAREHOUSE_DIR="$(abs_path "$METEOR_INSTALL_DIR")"
+  echo "run 'export METEOR_WAREHOUSE_DIR="$(abs_path "$METEOR_INSTALL_DIR")"' to make meteor working in this local universe (otherwise, a subsequent run of meteor will install a seperate meteor copy in the ~./meteor dir)"
 else
   echo "Meteor ${RELEASE} already installed"
 fi

@@ -15,14 +15,12 @@ workflows:
           include: true
           source: true
     scripts:
-      - name: Install meteor js
+      - name: Meteor install and Build
         script: |
           . ./install_meteor.sh
-      - name: Meteor build
-        script: |
-          meteor remove-platform android
-          meteor npm install
-          meteor build
+          ./meteor remove-platform android
+          ./meteor npm install
+          ./meteor build
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
