@@ -1,0 +1,32 @@
+workflows:
+  build-ios-workflow:
+    name: Cordova iOS Workflow
+    max_build_duration: 60
+    instance_type: mac_mini
+    environment:
+      vars:
+        CERTIFICATE_PRIVATE_KEY: Encrypted(...) # <-- Put your Certificate Private key here
+      node: latest
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: master
+          include: true
+          source: true
+    scripts:
+      - name: Install meteor js
+        script: |
+          . ./install_meteor.sh
+      - name: Meteor build
+        script: |
+          meteor remove-platform android
+          meteor npm install
+          meteor build
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
