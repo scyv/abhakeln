@@ -4,8 +4,6 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini
     environment:
-      vars:
-        CERTIFICATE_PRIVATE_KEY: Encrypted(...) # <-- Put your Certificate Private key here
       node: latest
       xcode: latest
       cocoapods: default
