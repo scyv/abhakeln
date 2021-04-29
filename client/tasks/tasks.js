@@ -1,3 +1,5 @@
+import { Sortable } from "sortablejs";
+
 import { Template } from "meteor/templating";
 import { Tasks, Lists } from "../../both/collections";
 import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
@@ -11,6 +13,30 @@ import "./dlgFolder";
 import "./dlgShare";
 
 const crypto = new Encryption();
+
+Template.tasks.onRendered(() => {
+    Meteor.setTimeout(() => {
+        const els = document.querySelectorAll("#tasklist .sortable");
+        for (let i = 0; i < els.length; i++) {
+            new Sortable(els[i], {
+                group: "tasks",
+                // handle: ".right.floated",
+                draggable: ".ah-checkbox",
+                ghostClass: "sortable-ghost",
+                delay: 400,
+                delayOnTouchOnly: true,
+                onUpdate: function () {
+                    const sortOrder = [];
+                    $("#opentasks .ah-checkbox").each((_, elem) => {
+                        sortOrder.push($(elem).data("id"));
+                    });
+                    Meteor.call("updateSortOrder", selectedList.get(), sortOrder);
+                },
+            });
+        }
+    }, 1000);
+});
+
 Template.tasks.events({
     "click .navBack"() {
         uistate.showDetails.set(false);
@@ -20,6 +46,9 @@ Template.tasks.events({
         uistate.taskMenuVisible.set(false);
         uistate.detailMenuVisible.set(false);
         history.pushState(null, "", "/");
+    },
+    "click .compNoTasks"() {
+        $(".compCreateTask input").trigger("focus");
     },
     "click #tasks .burger-button"() {
         uistate.taskMenuVisible.set(!uistate.taskMenuVisible.get());
@@ -177,15 +206,29 @@ Template.tasks.helpers({
         const year = date.getFullYear() + "";
         const hour = date.getHours() + "";
         const minute = date.getMinutes() + "";
-        return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0") + " " + hour.padStart(2, "0") + ":" + minute.padStart(2, "0");
+        return (
+            day.padStart(2, "0") +
+            "." +
+            month.padStart(2, "0") +
+            "." +
+            year.padStart(4, "0") +
+            " " +
+            hour.padStart(2, "0") +
+            ":" +
+            minute.padStart(2, "0")
+        );
     },
     opentasks() {
         const selectedListId = selectedList.get();
         if (selectedListId.indexOf("v-") >= 0) {
-            return Tasks.find(virtualLists[selectedListId].query, { sort: { dueDate: 1 } }).map(decryptTask());
+            return Tasks.find(virtualLists[selectedListId].query, {
+                sort: { dueDate: 1 },
+            }).map(decryptTask());
         }
 
-        return Tasks.find({ done: false, list: selectedListId }, { sort: { createdAt: -1 } }).map(decryptTask(this));
+        return Tasks.find({ done: false, list: selectedListId }, { sort: { sortOrder: 1, createdAt: -1 } }).map(
+            decryptTask(this)
+        );
     },
     donetasks() {
         return doneTasksHandle.ready() && Tasks.find({ done: true }, { sort: { doneAt: -1 } }).map(decryptTask(this));

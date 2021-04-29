@@ -3,18 +3,14 @@
         <div class="header">Liste umbenennen</div>
         <div class="scrolling content">
             <div class="ui fluid input">
-                <input type="text" id="newListName" placeholder="Neuer Name" value="{{listName}}">
+                <input type="text" id="newListName" placeholder="Neuer Name" value="{{listName}}" />
             </div>
         </div>
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
             {{>dlgRenameList_confirm}}
         </div>
-
     </div>
-
 </template>
 
 <template name="dlgRenameList_confirm">

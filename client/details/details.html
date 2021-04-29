@@ -5,9 +5,7 @@
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <i class="arrow circle left icon navIcon navBack"></i>
-                    <div class="content taskName">
-                        {{t.task}}
-                    </div>
+                    <div class="content taskName">{{t.task}}</div>
                 </h3>
             </div>
             <div class="three wide column" style="padding: 0">
@@ -39,9 +37,7 @@
         <div class="ui form">
             <div class="ui right aligned fluid container">
                 {{#if notDone t}}
-                <button class="ui basic primary button btnNowAbhakeln">
-                    Abhakeln
-                </button>
+                <button class="ui basic primary button btnNowAbhakeln">Abhakeln</button>
                 {{else}}
                 <button class="ui basic grey button btnNowAbhakeln">
                     <i class="check circle icon"></i>
@@ -54,7 +50,7 @@
                 <div class="ui calendar" id="notification_calendar">
                     <div class="ui right action input left icon">
                         <i class="calendar icon"></i>
-                        <input type="text" placeholder="Erinnern am...">
+                        <input type="text" placeholder="Erinnern am..." />
                         <button class="ui icon button btnDeleteReminder">
                             <i class="trash icon"></i>
                         </button>
@@ -66,7 +62,7 @@
                 <div class="ui calendar" id="duedate_calendar">
                     <div class="ui right action input left icon">
                         <i class="calendar icon"></i>
-                        <input type="text" placeholder="Fälligkeit am...">
+                        <input type="text" placeholder="Fälligkeit am..." />
                         <button class="ui icon button btnDeleteDuedate">
                             <i class="trash icon"></i>
                         </button>
@@ -78,7 +74,7 @@
                 <label>Aufgaben:</label>
                 {{#each st in t.subtasks}}
                 <div class="ui checkbox">
-                    <input type="checkbox" checked={{st.done}}>
+                    <input type="checkbox" checked="{{st.done}}" />
                     <label>{{st.task}}</label>
                 </div>
                 {{/each}}
@@ -93,15 +89,12 @@
                 </div>
                 {{else}}
                 <div class="ui left icon input notes">
-                    <div>
-                        {{#markdown}}{{task.notes}}{{/markdown}}
-                    </div>
+                    <div>{{#markdown}}{{task.notes}}{{/markdown}}</div>
                     <i class="clipboard icon"></i>
                 </div>
                 {{/if}}
             </div>
         </div>
     </div>
-    {{> dlgRenameTask}}
-    {{/let}}
+    {{> dlgRenameTask}} {{/let}}
 </template>

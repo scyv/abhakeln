@@ -11,7 +11,7 @@ function checkUserLoggedIn(ctx) {
 function checkUserOwnsList(ctx, listId) {
     const list = Lists.findOne({ _id: listId, "owners.userId": ctx.userId });
     if (!list) {
-        throw new Meteor.Error("Unauthorized", "User does not own the list");
+        throw new Meteor.Error("Unauthorized", "User does not own the list: " + listId);
     }
 }
 
@@ -205,5 +205,16 @@ Meteor.methods({
                 $pull: { owners: { userId: this.userId } },
             }
         );
+    },
+    updateSortOrder(listId, tasks) {
+        check(listId, String);
+        checkUserLoggedIn(this);
+        checkUserOwnsList(this, listId);
+        let sortOrder = 0;
+        tasks
+            .map((id) => Tasks.findOne(id))
+            .forEach((task) => {
+                Tasks.update(task._id, { $set: { sortOrder: sortOrder++ } });
+            });
     },
 });

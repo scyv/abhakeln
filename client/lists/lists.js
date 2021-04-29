@@ -37,7 +37,10 @@ const virtualListToday = {
     name: "Heute",
     icon: "calendar day",
     owners: [],
-    query: { done: false, $and: [{ dueDate: { $lte: endOfDay.toISOString() } }, { dueDate: { $gte: startOfDay.toISOString() } }] },
+    query: {
+        done: false,
+        $and: [{ dueDate: { $lte: endOfDay.toISOString() } }, { dueDate: { $gte: startOfDay.toISOString() } }],
+    },
 };
 const virtualListThisWeek = {
     _id: "v-thisweek",
@@ -45,7 +48,10 @@ const virtualListThisWeek = {
     name: "Diese Woche",
     icon: "calendar alternate",
     owners: [],
-    query: { done: false, $and: [{ dueDate: { $lte: endOfWeek.toISOString() } }, { dueDate: { $gte: startOfWeek.toISOString() } }] },
+    query: {
+        done: false,
+        $and: [{ dueDate: { $lte: endOfWeek.toISOString() } }, { dueDate: { $gte: startOfWeek.toISOString() } }],
+    },
 };
 const virtualListReminder = {
     _id: "v-reminder",
@@ -75,9 +81,18 @@ Template.lists.onRendered(() => {
     Meteor.setInterval(() => {
         const now = new Date().toISOString();
         const oneHourPast = new Date(new Date() - 60000 * 60).toISOString();
-        Tasks.find({ done: false, reminder: { $lte: now }, $or: [{ remindedAt: null }, { remindedAt: { $lte: oneHourPast } }] }).forEach((task) => {
+        Tasks.find({
+            done: false,
+            reminder: { $lte: now },
+            $or: [{ remindedAt: null }, { remindedAt: { $lte: oneHourPast } }],
+        }).forEach((task) => {
             const send = () => {
-                const decryptedTask = crypto.decryptItemData(task, Lists.findOne(task.list), Meteor.userId(), masterKey.get());
+                const decryptedTask = crypto.decryptItemData(
+                    task,
+                    Lists.findOne(task.list),
+                    Meteor.userId(),
+                    masterKey.get()
+                );
                 WebNotifications.notify("Erinnerung", decryptedTask.task);
                 Meteor.call("taskReminded", task._id);
             };

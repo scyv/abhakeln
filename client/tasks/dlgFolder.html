@@ -4,20 +4,16 @@
         <div class="header">Liste {{name}} gruppieren</div>
         <div class="scrolling content">
             <div class="ui fluid input">
-                <input type="text" id="newFolder" placeholder="Gruppe" value="{{folder}}">
+                <input type="text" id="newFolder" placeholder="Gruppe" value="{{folder}}" />
             </div>
             {{>dlgFolder_folders}}
         </div>
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
             {{>dlgFolder_confirm}}
         </div>
         {{/with}}
-
     </div>
-
 </template>
 
 <template name="dlgFolder_folders">

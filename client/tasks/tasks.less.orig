@@ -10,12 +10,6 @@
     #tasklist {
         overflow-y: auto;
         flex-grow: 1;
-
-        .sortable-ghost {
-            background: lighten(#2185d0, 40%);
-            color: #ffffff;
-            // padding: 10px;
-        }
     }
 
     .compTasksHeader {

@@ -8,23 +8,34 @@
                     <label>Teilen mit:</label>
                     <div class="ui left icon fluid input">
                         <i class="user icon"></i>
-                        <input type="text" name="targetUser" id="shareWith" autocomplete="nickname"
-                            placeholder="Teilen mit (Benutzername)">
+                        <input
+                            type="text"
+                            name="targetUser"
+                            id="shareWith"
+                            autocomplete="nickname"
+                            placeholder="Teilen mit (Benutzername)"
+                        />
                     </div>
                 </div>
                 <div class="field">
                     <label>Temporäres Passwort:</label>
                     <div class="ui left icon fluid input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" id="tmpListPassword" placeholder="Temporäres Passwort"
-                            autocomplete="new-password">
+                        <input
+                            type="password"
+                            name="password"
+                            id="tmpListPassword"
+                            placeholder="Temporäres Passwort"
+                            autocomplete="new-password"
+                        />
                     </div>
                 </div>
                 <div class="ui info message">
                     <div class="header">Temporäres Passwort</div>
                     <ul class="list">
                         <li>Das passwort wird nur für die Teilung verwendet.</li>
-                        <li>Es dient dazu, den Namen der Liste zu verschlüsseln und den Teilungsprozess abzusichern.
+                        <li>
+                            Es dient dazu, den Namen der Liste zu verschlüsseln und den Teilungsprozess abzusichern.
                         </li>
                         <li>Sie müssen es über einen separaten Kanal mitteilen.</li>
                     </ul>
@@ -32,13 +43,10 @@
             </form>
         </div>
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
             {{>dlgShare_confirm}}
         </div>
         {{/with}}
-
     </div>
 </template>
 

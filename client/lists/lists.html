@@ -4,14 +4,16 @@
         <div class="ui grid compListsHeader noselect">
             <div class="thirteen wide column">
                 <h3 class="ui header">
-                    <div class="content clickableTitle">
-                        Abhakeln
-                    </div>
+                    <div class="content clickableTitle">Abhakeln</div>
                 </h3>
             </div>
             <div class="three wide column" style="padding: 0">
-                <a role="button" class="burger-button {{menuVisible}} {{blinkOrNot}}" aria-label="menu"
-                    aria-expanded="false">
+                <a
+                    role="button"
+                    class="burger-button {{menuVisible}} {{blinkOrNot}}"
+                    aria-label="menu"
+                    aria-expanded="false"
+                >
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -34,9 +36,13 @@
                         <div class="content">
                             <div class="header">
                                 <div class="right floated content">
-                                    <div class="ui red circular mini label"
-                                        data-tooltip="{{sharedLists}} fällige Aufgaben" data-position="left center">
-                                        {{sharedLists}}</div>
+                                    <div
+                                        class="ui red circular mini label"
+                                        data-tooltip="{{sharedLists}} fällige Aufgaben"
+                                        data-position="left center"
+                                    >
+                                        {{sharedLists}}
+                                    </div>
                                 </div>
                                 Geteilte Listen
                             </div>
@@ -61,8 +67,7 @@
                     </div>
                 </div>
             </div>
-            {{> progressBar}}
-            {{> dlgEnterList}}
+            {{> progressBar}} {{> dlgEnterList}}
         </div>
         {{#if listsLoading}}
         <div class="ui container">
@@ -73,41 +78,28 @@
         </div>
         {{else}}
         <div id="listitems" class="ui middle large aligned divided selection list noselect">
-            {{#each listTree}}
-            {{#if folder}}
+            {{#each listTree}} {{#if folder}}
             <div class="folder">{{folder}}</div>
-            <div class="sublists ui middle aligned divided selection list">
-                {{#each lists}}
-                {{>list}}
-                {{/each}}
-            </div>
-            {{else}}
-            {{>list}}
-            {{/if}}
-            {{else}}
+            <div class="sublists ui middle aligned divided selection list">{{#each lists}} {{>list}} {{/each}}</div>
+            {{else}} {{>list}} {{/if}} {{else}}
             <h2 class="ui icon header">
                 <i class="list ul icon"></i>
                 <div class="content">
                     Neue Liste erstellen
-                    <div class="sub header">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'. </div>
+                    <div class="sub header">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'.</div>
                 </div>
             </h2>
             {{/each}}
         </div>
         <div class="ui icon large input compCreateList">
-            <input type="text" placeholder="Liste erstellen">
+            <input type="text" placeholder="Liste erstellen" />
             <i class="plus circle link icon"></i>
         </div>
         {{/if}}
     </div>
     {{/if}}
     <div class="container-for-background">
-        {{#if showTasks}}
-        {{> tasks}}
-        {{/if}}
-        {{#if showDetails}}
-        {{> details}}
-        {{/if}}
+        {{#if showTasks}} {{> tasks}} {{/if}} {{#if showDetails}} {{> details}} {{/if}}
     </div>
 </template>
 
@@ -115,11 +107,15 @@
     <div class="item {{isActive}} id-{{_id}} {{isVirtual}}">
         {{#if dueItems}}
         <div class="right floated content">
-            <div class="ui red circular mini label" data-tooltip="{{dueItems}} fällige Aufgaben"
-                data-position="left center">{{dueItems}}</div>
+            <div
+                class="ui red circular mini label"
+                data-tooltip="{{dueItems}} fällige Aufgaben"
+                data-position="left center"
+            >
+                {{dueItems}}
+            </div>
         </div>
-        {{/if}}
-        {{#if isShared}}
+        {{/if}} {{#if isShared}}
         <div class="right floated content">
             <i class="user friends icon"></i>
         </div>
@@ -128,8 +124,7 @@
         <div class="content">
             {{#if isVirtual}}
             <i class="{{icon}} icon"></i>
-            {{/if}}
-            {{name}}
+            {{/if}} {{name}}
         </div>
     </div>
 </template>

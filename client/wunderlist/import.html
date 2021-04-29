@@ -3,53 +3,45 @@
         <div class="header">Wunderlist Import</div>
         <div class="scrolling content">
             <ol style="padding: 10px">
-                <li>Erstellen Sie über <a target="_blank"
-                        href="https://export.wunderlist.com/export">https://export.wunderlist.com/export</a> den
-                    Wunderlist Export
+                <li>
+                    Erstellen Sie über
+                    <a target="_blank" href="https://export.wunderlist.com/export"
+                        >https://export.wunderlist.com/export</a
+                    >
+                    den Wunderlist Export
                 </li>
                 <li>Laden Sie die dort erstellte ZIP Datei herunter</li>
                 <li>Entpacken Sie diese ZIP Datei auf Ihre Festplatte</li>
-                <li>Wählen Sie in folgendem Eingabefeld aus dem entpackten Ordner (Wunderlist-2020xxxx) die Datei
+                <li>
+                    Wählen Sie in folgendem Eingabefeld aus dem entpackten Ordner (Wunderlist-2020xxxx) die Datei
                     "Tasks.json" aus:
                 </li>
             </ol>
-            <div class="ui fluid input focus">
-                {{>wunderlistImport_fileupload}}
-            </div>
+            <div class="ui fluid input focus">{{>wunderlistImport_fileupload}}</div>
             {{#if listsAvailable}}
             <div>Wählen Sie die Listen aus, die importiert werden sollen:</div>
             {{#each lists}}
             <div class="import-item {{importSuccess}}">
-                {{#if importdone}}
-                {{else}}
-                {{>wunderlistImport_selectForImport}}
-                {{/if}}
+                {{#if importdone}} {{else}} {{>wunderlistImport_selectForImport}} {{/if}}
                 <label class="checkbox" for="{{id}}">{{ title }}</label>
             </div>
-            {{/each}}
-            {{/if}}
+            {{/each}} {{/if}}
         </div>
         {{#if listsAvailable}}
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
             {{>wunderlistImport_startimport}}
         </div>
         {{else}}
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
         </div>
         {{/if}}
     </div>
-
-
 </template>
 
 <template name="wunderlistImport_fileupload">
-    <input type="file" id="wunderlistFileInput" placeholder="Tasks.json hochladen...">
+    <input type="file" id="wunderlistFileInput" placeholder="Tasks.json hochladen..." />
 </template>
 
 <template name="wunderlistImport_startimport">
@@ -60,5 +52,5 @@
 </template>
 
 <template name="wunderlistImport_selectForImport">
-    <input type="checkbox" checked="false" id="{{id}}">
+    <input type="checkbox" checked="false" id="{{id}}" />
 </template>

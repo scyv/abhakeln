@@ -3,18 +3,14 @@
         <div class="header">Aufgabe umbenennen</div>
         <div class="scrolling content">
             <div class="ui fluid input">
-                <input type="text" id="newTaskName" placeholder="Neuer Name" value="{{taskName}}">
+                <input type="text" id="newTaskName" placeholder="Neuer Name" value="{{taskName}}" />
             </div>
         </div>
         <div class="actions">
-            <div class="ui black deny button">
-                Abbruch
-            </div>
+            <div class="ui black deny button">Abbruch</div>
             {{>dlgRenameTask_confirm}}
         </div>
-
     </div>
-
 </template>
 
 <template name="dlgRenameTask_confirm">

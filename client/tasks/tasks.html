@@ -21,13 +21,10 @@
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <i class="arrow circle left icon link navIcon navBack"></i>
-                    <div class="content listName">
-                        {{name}}
-                    </div>
+                    <div class="content listName">{{name}}</div>
                 </h3>
             </div>
-            {{#if virtual}}
-            {{else}}
+            {{#if virtual}} {{else}}
             <div class="three wide column" style="padding: 0">
                 <a role="button" class="burger-button {{menuVisible}}" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
@@ -78,44 +75,41 @@
             </div>
             {{/if}}
         </div>
-        {{#if virtual}}
-        {{else}}
+        {{#if virtual}} {{else}}
         <div class="ui icon large input compCreateTask">
-            <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen">
+            <input type="text" placeholder="Neue Aufgabe, z.b: Milch holen" />
             <i class="plus circle link icon"></i>
         </div>
         {{/if}}
         <div id="tasklist" class="noselect">
-            <div id="opentasks">
+            <div id="opentasks" class="sortable">
                 {{#each opentasks}}
-                <label class="ah-checkbox ah-checkbox-label">
+                <label class="ah-checkbox ah-checkbox-label" data-id="{{_id}}">
                     {{#if dueDate}}
-                    <div class="ui {{isdue}} mini label" style="float: right;">
+                    <div class="ui {{isdue}} mini label" style="float: right">
                         <i class="calendar icon"></i>
                         {{dueDate}}
                     </div>
-                    {{/if}}
-                    {{#if reminder}}
-                    <span data-tooltip="Erinnerung am {{reminderDate}}" data-position="left center"
-                        style="float:right;">
+                    {{/if}} {{#if reminder}}
+                    <span
+                        data-tooltip="Erinnerung am {{reminderDate}}"
+                        data-position="left center"
+                        style="float: right"
+                    >
                         <i class="bell {{isreminder}} icon small"></i>
                     </span>
-                    {{/if}}
-                    {{#if hasNotes}}
-                    <i class="clipboard icon small" style="float:right; padding-top: 5px;"></i>
-                    {{/if}}
-                    {{task}}
+                    {{/if}} {{#if hasNotes}}
+                    <i class="clipboard icon small" style="float: right; padding-top: 5px"></i>
+                    {{/if}} {{task}}
                     <input type="checkbox" checked="{{done}}" />
                     <div class="ah-checkbox-check"></div>
                 </label>
-                {{else}}
-                {{#if virtual}}
+                {{else}} {{#if virtual}}
                 <h2 class="ui icon container header segment compNoTasks">
                     <i class="thumbs up icon"></i>
                     <div class="content">
                         Keine Aufgaben!
-                        <div class="sub header">Super! Diese Liste ist leer.
-                        </div>
+                        <div class="sub header">Super! Diese Liste ist leer.</div>
                     </div>
                 </h2>
                 {{else}}
@@ -123,21 +117,16 @@
                     <i class="tasks icon"></i>
                     <div class="content">
                         Neue Aufgabe erstellen
-                        <div class="sub header">Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder
-                            'Milch'.
+                        <div class="sub header">
+                            Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder 'Milch'.
                         </div>
                     </div>
                 </h2>
-                {{/if}}
-                {{/each}}
+                {{/if}} {{/each}}
             </div>
-            {{#if virtual}}
-            {{else}}
-            {{#if donetasks}}
+            {{#if virtual}} {{else}} {{#if donetasks}}
             <label class="show-done-checkbox ah-checkbox ah-checkbox-label">
-                <div class="ui mini blue basic label" style="float: right;">
-                    {{donetasks.length}}
-                </div>
+                <div class="ui mini blue basic label" style="float: right">{{donetasks.length}}</div>
                 Erledigte Einträge anzeigen
                 <input type="checkbox" id="showDone" checked="{{showDoneEntries}}" />
                 <div class="ah-checkbox-check"></div>
@@ -150,17 +139,11 @@
                     <input type="checkbox" checked="{{done}}" />
                     <div class="ah-checkbox-check"></div>
                 </label>
-                {{else}}
-                {{/each}}
+                {{else}} {{/each}}
             </div>
-            {{/if}}
-            {{/if}}
-            {{/if}}
+            {{/if}} {{/if}} {{/if}}
         </div>
         {{/with}}
     </div>
-    {{>dlgFolder}}
-    {{>dlgRenameList}}
-    {{>dlgShareList}}
-    {{/if}}
+    {{>dlgFolder}} {{>dlgRenameList}} {{>dlgShareList}} {{/if}}
 </template>
