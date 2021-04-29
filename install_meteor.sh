@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RELEASE=2.1
+RELEASE=2.2
 INSTALL_TMPDIR=".meteor-install-tmp"
 TARBALL_FILE=".meteor-tarball-tmp"
 METEOR_RELEASE_FILE="METEOR_RELEASE.txt"
