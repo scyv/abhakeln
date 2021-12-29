@@ -7,15 +7,16 @@
         "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
         "visualize": "meteor --production --extra-packages bundle-visualizer",
         "markbuild": "git rev-parse --short HEAD > ./public/revision",
+        "build": "npm run markbuild && meteor build ../abhakeln_build --server https://www.abhakeln.de --architecture os.linux.x86_64 ",
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@babel/runtime": "^7.11.2",
-        "bcrypt": "^4.0.1",
-        "jquery": "^3.5.1",
-        "meteor-node-stubs": "^1.0.1",
+        "@babel/runtime": "^7.16.5",
+        "bcrypt": "^5.0.1",
+        "jquery": "^3.6.0",
+        "meteor-node-stubs": "^1.1.0",
         "sjcl": "^1.0.8",
-        "sortablejs": "^1.13.0"
+        "sortablejs": "^1.14.0"
     },
     "meteor": {
         "mainModule": {

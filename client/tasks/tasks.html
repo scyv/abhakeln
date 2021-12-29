@@ -85,7 +85,9 @@
             <div id="opentasks" class="sortable">
                 {{#each opentasks}}
                 <label class="ah-checkbox ah-checkbox-label" data-id="{{_id}}">
-                    {{#if dueDate}}
+                    {{#if virtual}}
+                    <div class="ui mini label" style="float: right">folder</div>
+                    {{/if}} {{#if dueDate}}
                     <div class="ui {{isdue}} mini label" style="float: right">
                         <i class="calendar icon"></i>
                         {{dueDate}}
