@@ -5,6 +5,7 @@ import { uistate } from "../main";
 
 import "./details.html";
 import "./dlgRenameTask";
+import { DateTime } from "luxon";
 
 const crypto = new Encryption();
 
@@ -89,6 +90,13 @@ Template.details.helpers({
     menuVisible() {
         return uistate.detailMenuVisible.get() ? "is-active" : "";
     },
+    doneAt() {
+        if (!this.doneAt) {
+            return null;
+        }
+        const date = DateTime.fromISO(this.doneAt);
+        return date.toFormat("dd.MM.yyyy HH:mm");
+    },
 });
 
 Template.details.events({
@@ -101,17 +109,20 @@ Template.details.events({
     },
     "click .btnNowAbhakeln"() {
         const task = Tasks.findOne(selectedTask.get());
-        if (!task.done) {
-            $("body").toast({
-                title: "Aufgabe erledigt.",
-                class: "blue",
-                showProgress: "bottom",
-                position: "bottom right",
-                displayTime: 2000,
-            });
-            $("#details .navBack").trigger("click");
-        }
-        Meteor.call("toggleTaskDone", task);
+        Meteor.call("toggleTaskDone", task, (err) => {
+            if (!err) {
+                if (!task.done) {
+                    $("body").toast({
+                        title: "Aufgabe erledigt.",
+                        class: "blue",
+                        showProgress: "bottom",
+                        position: "bottom right",
+                        displayTime: 2000,
+                    });
+                    $("#details .navBack").trigger("click");
+                }
+            }
+        });
     },
     "blur #notification_calendar input"() {
         const selectedDate = $("#notification_calendar").calendar("get date");

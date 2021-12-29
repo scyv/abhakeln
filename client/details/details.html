@@ -5,6 +5,11 @@
             <div class="thirteen wide column">
                 <h3 class="ui header">
                     <i class="arrow circle left icon navIcon navBack"></i>
+                    {{#if notDone t}}
+                    <i class="check circle icon btnNowAbhakeln"></i>
+                    {{else}}
+                    <i class="check circle icon checked btnNowAbhakeln"></i>
+                    {{/if}}
                     <div class="content taskName">{{t.task}}</div>
                 </h3>
             </div>
@@ -35,16 +40,12 @@
             </div>
         </div>
         <div class="ui form">
-            <div class="ui right aligned fluid container">
-                {{#if notDone t}}
-                <button class="ui basic primary button btnNowAbhakeln">Abhakeln</button>
-                {{else}}
-                <button class="ui basic grey button btnNowAbhakeln">
-                    <i class="check circle icon"></i>
-                    Erledigt
-                </button>
-                {{/if}}
+            {{#if t.doneAt}}
+            <div class="field">
+                <label>Erledigt am:</label>
+                {{formattedDateTimeLong t.doneAt}}
             </div>
+            {{/if}}
             <div class="field">
                 <label>Erinnerung:</label>
                 <div class="ui calendar" id="notification_calendar">

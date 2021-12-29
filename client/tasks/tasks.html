@@ -85,16 +85,21 @@
             <div id="opentasks" class="sortable">
                 {{#each opentasks}}
                 <label class="ah-checkbox ah-checkbox-label" data-id="{{_id}}">
-                    {{#if virtual}}
-                    <div class="ui mini label" style="float: right">folder</div>
-                    {{/if}} {{#if dueDate}}
-                    <div class="ui {{isdue}} mini label" style="float: right">
+                    {{#if dueDate}}
+                    <div
+                        class="ui {{isdue}} mini label"
+                        style="float: right"
+                        data-tooltip="Fällig am {{formattedDateLong dueDate}}"
+                        data-position="left center"
+                    >
                         <i class="calendar icon"></i>
-                        {{dueDate}}
+                        {{formattedDate dueDate}}
                     </div>
+                    {{/if}} {{#if ../virtual}}
+                    <div class="ui mini label" style="float: right">{{listName}}</div>
                     {{/if}} {{#if reminder}}
                     <span
-                        data-tooltip="Erinnerung am {{reminderDate}}"
+                        data-tooltip="Erinnerung am {{formattedDateTime reminder}}"
                         data-position="left center"
                         style="float: right"
                     >
@@ -107,23 +112,21 @@
                     <div class="ah-checkbox-check"></div>
                 </label>
                 {{else}} {{#if virtual}}
-                <h2 class="ui icon container header segment compNoTasks">
+                <div class="ui container fluid segment compNoTasks">
                     <i class="thumbs up icon"></i>
                     <div class="content">
                         Keine Aufgaben!
-                        <div class="sub header">Super! Diese Liste ist leer.</div>
+                        <div class="sub">Super! Diese Liste ist leer.</div>
                     </div>
-                </h2>
+                </div>
                 {{else}}
-                <h2 class="ui icon container header segment compNoTasks">
+                <div class="ui container fluid segment compNoTasks">
                     <i class="tasks icon"></i>
                     <div class="content">
                         Neue Aufgabe erstellen
-                        <div class="sub header">
-                            Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder 'Milch'.
-                        </div>
+                        <div class="sub">Erstellen Sie eine neue Aufgabe wie z.B. 'Blumen gießen' oder 'Milch'.</div>
                     </div>
-                </h2>
+                </div>
                 {{/if}} {{/each}}
             </div>
             {{#if virtual}} {{else}} {{#if donetasks}}

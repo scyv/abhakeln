@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { COLLECTIONS } from "../both/collections";
 import { selectedList, selectedTask, showLandingPage } from "./storage";
 
@@ -16,6 +17,34 @@ export let tasksHandle;
 export let doneTasksHandle;
 export let listsHandle;
 export let sharesHandle;
+
+Template.registerHelper("formattedDate", (date) => {
+    if (typeof date === "object") {
+        return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_MED);
+    }
+    return DateTime.fromISO(date).toLocaleString(DateTime.DATE_MED);
+});
+
+Template.registerHelper("formattedDateLong", (date) => {
+    if (typeof date === "object") {
+        return DateTime.fromJSDate(date).toLocaleString(DateTime.DATE_HUGE);
+    }
+    return DateTime.fromISO(date).toLocaleString(DateTime.DATE_HUGE);
+});
+
+Template.registerHelper("formattedDateTime", (date) => {
+    if (typeof date === "object") {
+        return DateTime.fromJSDate(date).toLocaleString(DateTime.DATETIME_MED);
+    }
+    return DateTime.fromISO(date).toLocaleString(DateTime.DATETIME_MED);
+});
+
+Template.registerHelper("formattedDateTimeLong", (date) => {
+    if (typeof date === "object") {
+        return DateTime.fromJSDate(date).toLocaleString(DateTime.DATETIME_HUGE);
+    }
+    return DateTime.fromISO(date).toLocaleString(DateTime.DATETIME_HUGE);
+});
 
 export const uistate = {
     VIEW_LANDING: "landing",

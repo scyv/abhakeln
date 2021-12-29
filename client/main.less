@@ -107,10 +107,73 @@
     transition: padding 1s;
 }
 
-@media only screen and (max-width: 769px) {
+.ui.grid.compListsHeader,
+.ui.grid.compTasksHeader,
+.ui.grid.compDetailsHeader {
+    padding: 10px;
+    transition: padding 1s;
+}
+
+.ui.header {
+    line-height: 2.5rem;
+}
+.ui.header > .icon {
+    line-height: 2.5rem;
+    font-size: 2.5rem;
+    padding-right: 1rem;
+    transition: padding 1s, font-size 1s;
+    position: absolute;
+    transition: transform 300ms;
+    cursor: pointer;
+}
+
+.ui.header > .icon:active {
+    transform: scale3d(1.1, 1.1, 1.1);
+    color: #db2828;
+}
+
+.ui.header > .icon.navIcon:active {
+    transform: translateX(-5px);
+}
+
+.ui.header > .icon + .content {
+    padding-left: 3rem;
+}
+
+.compNoTasks {
+    text-align: center;
+    .content {
+        font-size: 2rem;
+        line-height: 2rem;
+    }
+    .icon {
+        line-height: 4rem;
+        font-size: 4rem;
+        margin: 20px;
+    }
+    .sub {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .ui.header {
+        line-height: 2rem;
+    }
+
+    .ui.header > .icon {
+        padding-right: 0;
+        line-height: 2rem;
+        font-size: 2rem;
+    }
+
+    .ui.header > .icon + .content {
+        padding-left: 2.5rem;
+    }
+
     .ui.grid.compListsHeader,
     .ui.grid.compTasksHeader,
     .ui.grid.compDetailsHeader {
-        padding: 10px;
+        padding: 0;
     }
 }

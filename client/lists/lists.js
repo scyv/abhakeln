@@ -73,7 +73,7 @@ const crypto = new Encryption();
 
 Template.lists.onRendered(() => {
     const determineWideScreen = () => {
-        uistate.isMobile.set(window.innerWidth < 769);
+        uistate.isMobile.set(window.innerWidth < 1000);
     };
     $(window).on("resize", _.debounce(determineWideScreen, 100));
     determineWideScreen();

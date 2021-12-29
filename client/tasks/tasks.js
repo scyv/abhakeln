@@ -162,22 +162,26 @@ const decryptTask = (list) => (task) => {
     return crypto.decryptItemData(task, list || Lists.findOne(task.list), Meteor.userId(), masterKey.get());
 };
 
+const decryptList = (listId) => {
+    const userId = Meteor.userId();
+    const key = masterKey.get();
+
+    if (listId.indexOf("v-") >= 0) {
+        return virtualLists[listId];
+    }
+    const list = Lists.findOne(listId);
+    if (!list) {
+        return null;
+    }
+    return crypto.decryptListData(list, userId, key);
+};
+
 Template.tasks.helpers({
     tasksLoading() {
         return !(listsHandle.ready && tasksHandle.ready);
     },
     list() {
-        const userId = Meteor.userId();
-        const key = masterKey.get();
-        const selectedListId = selectedList.get();
-        if (selectedListId.indexOf("v-") >= 0) {
-            return virtualLists[selectedListId];
-        }
-        const list = Lists.findOne(selectedListId);
-        if (!list) {
-            return null;
-        }
-        return crypto.decryptListData(list, userId, key);
+        return decryptList(selectedList.get());
     },
     shared() {
         return this.owners.length > 1;
@@ -185,38 +189,6 @@ Template.tasks.helpers({
     showDoneEntries() {
         const showDone = showDoneTasks.get();
         return showDone;
-    },
-    dueDate() {
-        if (!this.dueDate) {
-            return null;
-        }
-        const date = new Date(this.dueDate);
-        const day = date.getDate() + "";
-        const month = date.getMonth() + 1 + "";
-        const year = date.getFullYear() + "";
-        return day.padStart(2, "0") + "." + month.padStart(2, "0") + "." + year.padStart(4, "0");
-    },
-    reminderDate() {
-        if (!this.reminder) {
-            return null;
-        }
-        const date = new Date(this.reminder);
-        const day = date.getDate() + "";
-        const month = date.getMonth() + 1 + "";
-        const year = date.getFullYear() + "";
-        const hour = date.getHours() + "";
-        const minute = date.getMinutes() + "";
-        return (
-            day.padStart(2, "0") +
-            "." +
-            month.padStart(2, "0") +
-            "." +
-            year.padStart(4, "0") +
-            " " +
-            hour.padStart(2, "0") +
-            ":" +
-            minute.padStart(2, "0")
-        );
     },
     opentasks() {
         const selectedListId = selectedList.get();
@@ -244,5 +216,8 @@ Template.tasks.helpers({
     },
     menuVisible() {
         return uistate.taskMenuVisible.get() ? "is-active" : "";
+    },
+    listName() {
+        return decryptList(this.list).name;
     },
 });

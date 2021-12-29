@@ -3,7 +3,7 @@ import { uistate } from "../main";
 import "./progressbar.html";
 
 Template.progressBar.onRendered(() => {
-    $(".compProgressbar .ui.progress").progress();
+    $(".compProgressbar .ui.progress")?.progress();
 });
 
 Template.progressBar.helpers({
