@@ -31,6 +31,9 @@
 
 <template name="main">
     {{#if showLanding}} {{> landing}} {{else}}
-    <div class="main">{{#if currentUser }} {{> lists}} {{> wunderlistImport}} {{else}} {{> login}} {{/if}}</div>
+    <div class="main">
+        {{#if loggingIn}} {{else}} {{#if currentUser }} {{> lists}} {{> wunderlistImport}} {{else}} {{> login}} {{/if}}
+        {{/if}}
+    </div>
     {{/if}}
 </template>

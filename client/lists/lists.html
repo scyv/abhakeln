@@ -21,15 +21,13 @@
             </div>
             <div class="ui segment compListMenu {{menuVisible}}">
                 <div class="ui large relaxed divided list">
-                    <!--
                     <div class="item miHelp">
-                        <i class="help icon"></i>
+                        <i class="user icon"></i>
                         <div class="content">
-                            <div class="header">Info</div>
-                            Informationen über Version, Lizenzen, ...
+                            <div class="header">Profil ({{currentUser.username}})</div>
+                            Einstellungen für Ihr Profil
                         </div>
                     </div>
-                    -->
                     {{#if sharedLists}}
                     <div class="item miSharedLists">
                         <i class="share icon"></i>
@@ -82,13 +80,13 @@
             <div class="folder">{{folder}}</div>
             <div class="sublists ui middle aligned divided selection list">{{#each lists}} {{>list}} {{/each}}</div>
             {{else}} {{>list}} {{/if}} {{else}}
-            <h2 class="ui icon header">
+            <div class="container fluid segment compNoTasks">
                 <i class="list ul icon"></i>
                 <div class="content">
                     Neue Liste erstellen
-                    <div class="sub header">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'.</div>
+                    <div class="sub">Erstellen Sie eine neue Liste wie z.B. 'TODO' oder 'Einkauf'.</div>
                 </div>
-            </h2>
+            </div>
             {{/each}}
         </div>
         <div class="ui icon large input compCreateList">

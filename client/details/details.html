@@ -4,13 +4,15 @@
         <div class="ui grid compDetailsHeader">
             <div class="thirteen wide column">
                 <h3 class="ui header">
-                    <i class="arrow circle left icon navIcon navBack"></i>
-                    {{#if notDone t}}
-                    <i class="check circle icon btnNowAbhakeln"></i>
-                    {{else}}
-                    <i class="check circle icon checked btnNowAbhakeln"></i>
-                    {{/if}}
-                    <div class="content taskName">{{t.task}}</div>
+                    <div class="content">
+                        <i class="arrow circle left icon navIcon navBack"></i>
+                        {{#if notDone t}}
+                        <i class="check circle icon btnNowAbhakeln"></i>
+                        {{else}}
+                        <i class="check circle icon checked btnNowAbhakeln"></i>
+                        {{/if}}
+                        <span class="taskName">{{t.task}}</span>
+                    </div>
                 </h3>
             </div>
             <div class="three wide column" style="padding: 0">
