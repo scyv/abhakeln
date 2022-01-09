@@ -137,7 +137,7 @@ Template.details.events({
         }
         Meteor.call("setDuedate", selectedTask.get(), selectedDate ? selectedDate.toISOString() : null);
     },
-    "click .notes"() {
+    "click .notes, click .notesLabel, click .clipboard.icon"() {
         noteEditMode.set(true);
     },
     "blur #notesInput"() {

@@ -7,7 +7,7 @@
         "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
         "visualize": "meteor --production --extra-packages bundle-visualizer",
         "markbuild": "git rev-parse --short HEAD > ./public/revision",
-        "build": "npm run markbuild && meteor build ../abhakeln_build --server https://www.abhakeln.de --architecture os.linux.x86_64 ",
+        "build": "npm run markbuild && meteor build ../abhakeln_build --server https://www.abhakeln.de --architecture os.linux.x86_64 --server-only",
         "format": "prettier --write ."
     },
     "dependencies": {

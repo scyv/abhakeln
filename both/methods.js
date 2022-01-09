@@ -13,6 +13,7 @@ function checkUserOwnsList(ctx, listId) {
     if (!list) {
         throw new Meteor.Error("Unauthorized", "User does not own the list: " + listId);
     }
+    return list;
 }
 
 Meteor.methods({
@@ -205,6 +206,35 @@ Meteor.methods({
                 $pull: { owners: { userId: this.userId } },
             }
         );
+    },
+    removeFromList(listId, userId) {
+        check(listId, String);
+        check(userId, String);
+        checkUserLoggedIn(this);
+        checkUserOwnsList(this, listId);
+        Lists.update(
+            { _id: listId },
+            {
+                $pull: { owners: { userId: userId } },
+            }
+        );
+    },
+    getShareInfo(listId) {
+        check(listId, String);
+        checkUserLoggedIn(this);
+        const list = checkUserOwnsList(this, listId);
+        return {
+            sharedWith: Meteor.users
+                .find(
+                    { _id: { $in: list.owners.map((owner) => owner.userId).filter((id) => id !== this.userId) } },
+                    {
+                        fields: {
+                            username: 1,
+                        },
+                    }
+                )
+                .fetch(),
+        };
     },
     updateSortOrder(listId, tasks) {
         check(listId, String);

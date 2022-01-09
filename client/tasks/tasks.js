@@ -1,6 +1,8 @@
 import { Sortable } from "sortablejs";
 
 import { Template } from "meteor/templating";
+import { Session } from "meteor/session";
+
 import { Tasks, Lists } from "../../both/collections";
 import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
 import { Encryption } from "../encryption";
@@ -57,7 +59,15 @@ Template.tasks.events({
         $("#dlgRenameList").modal("show");
     },
     "click .miShareList"() {
-        $("#dlgShareList").modal("show");
+        Meteor.call("getShareInfo", this._id, (_, info) => {
+            Session.set("SHARE_INFO", info);
+        });
+
+        $("#dlgShareList")
+            .modal({
+                allowMultiple: true,
+            })
+            .modal("show");
     },
     "click .miSetFolder"() {
         $("#dlgFolder").modal("show");

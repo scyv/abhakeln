@@ -4,8 +4,14 @@
         <div class="header">Liste {{name}} teilen</div>
         <div class="content">
             <form class="ui form info">
+                {{#with sharedInfo}}
                 <div class="field">
-                    <label>Teilen mit:</label>
+                    <label>Geteilt mit:</label>
+                    {{#each sharedWith}} {{> dlgShare_userNameWithX}} {{else}} Niemand {{/each}}
+                </div>
+                {{/with}}
+                <div class="field">
+                    <label>Neu Teilen mit:</label>
                     <div class="ui left icon fluid input">
                         <i class="user icon"></i>
                         <input
@@ -47,6 +53,26 @@
             {{>dlgShare_confirm}}
         </div>
         {{/with}}
+    </div>
+    <div class="ui small modal" id="dlgConfirmRemoveShare">
+        <div class="header">Teilen beenden</div>
+        <div class="content">
+            <p>Sind Sie sicher, dass Sie das Teilen beenden möchten?</p>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">Abbruch</div>
+            <div class="ui positive right labeled icon button">
+                Teilen beenden
+                <i class="sign out alternate icon"></i>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="dlgShare_userNameWithX">
+    <div class="ui image label">
+        {{username}}
+        <i class="delete icon btnRemoveShare" title="Nicht mehr teilen"></i>
     </div>
 </template>
 
