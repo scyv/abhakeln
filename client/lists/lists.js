@@ -1,8 +1,7 @@
+import { Sortable } from "sortablejs";
 import { Encryption } from "../encryption";
 import { masterKey, selectedList, selectedTask, resetStorage, showLandingPage } from "../storage";
 import { Lists, Tasks, COLLECTIONS, Shares } from "../../both/collections";
-import { WebNotifications } from "../notifications/web-notifications";
-
 import { listsHandle, sharesHandle, uistate } from "../main";
 
 import "./lists.html";
@@ -78,27 +77,26 @@ Template.lists.onRendered(() => {
     $(window).on("resize", _.debounce(determineWideScreen, 100));
     determineWideScreen();
 
-    Meteor.setInterval(() => {
-        const now = new Date().toISOString();
-        const oneHourPast = new Date(new Date() - 60000 * 60).toISOString();
-        Tasks.find({
-            done: false,
-            reminder: { $lte: now },
-            $or: [{ remindedAt: null }, { remindedAt: { $lte: oneHourPast } }],
-        }).forEach((task) => {
-            const send = () => {
-                const decryptedTask = crypto.decryptItemData(
-                    task,
-                    Lists.findOne(task.list),
-                    Meteor.userId(),
-                    masterKey.get()
-                );
-                WebNotifications.notify("Erinnerung", decryptedTask.task);
-                Meteor.call("taskReminded", task._id);
-            };
-            _.debounce(send, 500)();
-        });
-    }, 60000);
+    Meteor.setTimeout(() => {
+        const els = document.querySelectorAll("#listitems.sortable");
+        for (let i = 0; i < els.length; i++) {
+            console.log(els[i]);
+            new Sortable(els[i], {
+                group: "lists",
+                draggable: ".item:not(.virtual)",
+                ghostClass: "sortable-ghost",
+                delay: 400,
+                delayOnTouchOnly: true,
+                onUpdate: function () {
+                    const sortOrder = [];
+                    $("#listitems.sortable .item:not(.virtual)").each((_, elem) => {
+                        sortOrder.push($(elem).data("id"));
+                    });
+                    Meteor.call("updateListSortOrder", sortOrder);
+                },
+            });
+        }
+    }, 1000);
 });
 Template.lists.helpers({
     listsLoading() {
@@ -121,6 +119,9 @@ Template.lists.helpers({
                 }
                 folder.lists.push(list);
                 folder.lists.sort((a, b) => {
+                    if (a.sortOrder && b.sortOrder) {
+                        return a.sortOrder < b.sortOrder ? -1 : a.sortOrder === b.sortOrder ? 0 : 1;
+                    }
                     return a.name < b.name ? -1 : a.name === b.name ? 0 : 1;
                 });
             } else {
@@ -182,6 +183,9 @@ Template.list.helpers({
     isVirtual() {
         return this.virtual ? "virtual" : "";
     },
+    isSortable() {
+        return this.virtual ? "" : "sortable";
+    },
     isShared() {
         return this.owners.length > 1;
     },
@@ -223,7 +227,7 @@ Template.lists.events({
     },
     "keydown .compCreateList input"(evt) {
         if (evt.keyCode === 13) {
-            $(".compCreateList .link").click();
+            $(".compCreateList .link").trigger("click");
         }
     },
     "click #lists .burger-button"() {
@@ -266,6 +270,10 @@ function sortListTree(tree) {
         } else if (b.folder) {
             // only b is folder
             return -1;
+        }
+
+        if (a.sortOrder && b.sortOrder) {
+            return a.sortOrder < b.sortOrder ? -1 : a.sortOrder === b.sortOrder ? 0 : 1;
         }
 
         // no folder

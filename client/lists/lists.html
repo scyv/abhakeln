@@ -75,12 +75,12 @@
             <p></p>
         </div>
         {{else}}
-        <div id="listitems" class="ui middle large aligned divided selection list noselect">
+        <div id="listitems" class="ui middle large aligned divided selection list noselect sortable">
             {{#each listTree}} {{#if folder}}
             <div class="folder">{{folder}}</div>
             <div class="sublists ui middle aligned divided selection list">{{#each lists}} {{>list}} {{/each}}</div>
             {{else}} {{>list}} {{/if}} {{else}}
-            <div class="container fluid segment compNoTasks">
+            <div class="container fluid segment">
                 <i class="list ul icon"></i>
                 <div class="content">
                     Neue Liste erstellen
@@ -102,7 +102,7 @@
 </template>
 
 <template name="list">
-    <div class="item {{isActive}} id-{{_id}} {{isVirtual}}">
+    <div class="item {{isActive}} id-{{_id}} {{isVirtual}}" data-id="{{_id}}">
         {{#if dueItems}}
         <div class="right floated content">
             <div

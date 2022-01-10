@@ -247,4 +247,18 @@ Meteor.methods({
                 Tasks.update(task._id, { $set: { sortOrder: sortOrder++ } });
             });
     },
+    updateListSortOrder(lists) {
+        checkUserLoggedIn(this);
+        lists.forEach((listId) => {
+            check(listId, String);
+            checkUserOwnsList(this, listId);
+        });
+
+        let sortOrder = 1;
+        lists
+            .map((id) => Lists.findOne(id))
+            .forEach((list) => {
+                Lists.update(list._id, { $set: { sortOrder: sortOrder++ } });
+            });
+    },
 });

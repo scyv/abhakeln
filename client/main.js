@@ -1,6 +1,8 @@
 import { DateTime } from "luxon";
-import { COLLECTIONS } from "../both/collections";
-import { selectedList, selectedTask, showLandingPage } from "./storage";
+import { COLLECTIONS, Lists, Tasks } from "../both/collections";
+import { masterKey, selectedList, selectedTask, showLandingPage } from "./storage";
+import { WebNotifications } from "./notifications/web-notifications";
+import { Encryption } from "./encryption";
 
 import "./landing/landing";
 import "../both/methods";
@@ -110,3 +112,26 @@ Template.main.helpers({
         return showLandingPage.get() && uistate.currentView.get() === uistate.VIEW_LANDING;
     },
 });
+
+Meteor.setInterval(() => {
+    const now = new Date().toISOString();
+    const oneHourPast = new Date(new Date() - 60000 * 60).toISOString();
+    const crypto = new Encryption();
+    Tasks.find({
+        done: false,
+        reminder: { $lte: now },
+        $or: [{ remindedAt: null }, { remindedAt: { $lte: oneHourPast } }],
+    }).forEach((task) => {
+        const send = () => {
+            const decryptedTask = crypto.decryptItemData(
+                task,
+                Lists.findOne(task.list),
+                Meteor.userId(),
+                masterKey.get()
+            );
+            WebNotifications.notify("Erinnerung", decryptedTask.task);
+            Meteor.call("taskReminded", task._id);
+        };
+        _.debounce(send, 500)();
+    });
+}, 60000);

@@ -1,7 +1,6 @@
-import { Sortable } from "sortablejs";
-
 import { Template } from "meteor/templating";
 import { Session } from "meteor/session";
+import { Sortable } from "sortablejs";
 
 import { Tasks, Lists } from "../../both/collections";
 import { showDoneTasks, selectedList, masterKey, selectedTask } from "../storage";
