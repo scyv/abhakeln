@@ -8,6 +8,7 @@
         "visualize": "meteor --production --extra-packages bundle-visualizer",
         "markbuild": "git rev-parse --short HEAD > ./public/revision",
         "build": "npm run markbuild && meteor build ../abhakeln_build --server https://www.abhakeln.de --architecture os.linux.x86_64 --server-only",
+        "build:all": "npm run markbuild && meteor build ../abhakeln_build --server https://www.abhakeln.de --architecture os.linux.x86_64 --debug",
         "format": "prettier --write ."
     },
     "dependencies": {
