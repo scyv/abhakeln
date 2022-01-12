@@ -80,7 +80,6 @@ Template.lists.onRendered(() => {
     Meteor.setTimeout(() => {
         const els = document.querySelectorAll("#listitems.sortable");
         for (let i = 0; i < els.length; i++) {
-            console.log(els[i]);
             new Sortable(els[i], {
                 group: "lists",
                 draggable: ".item:not(.virtual)",

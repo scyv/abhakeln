@@ -152,5 +152,18 @@
         </div>
         {{/with}}
     </div>
+    <div class="ui small modal" id="dlgConfirmRemoveList">
+        <div class="header">Liste löschen</div>
+        <div class="content">
+            <p>Sind Sie sicher, dass Sie die Liste löschen möchten?</p>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">Abbruch</div>
+            <div class="ui red approve right labeled icon button">
+                Liste löschen
+                <i class="trash icon"></i>
+            </div>
+        </div>
+    </div>
     {{>dlgFolder}} {{>dlgRenameList}} {{>dlgShareList}} {{/if}}
 </template>

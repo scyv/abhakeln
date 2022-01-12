@@ -90,28 +90,36 @@ Template.tasks.events({
     },
     "click .miDeleteList"() {
         const listId = selectedList.get();
-        $("#tasks .navBack").trigger("click");
-        Meteor.call("deleteList", listId, (err) => {
-            if (err) {
-                $("body").toast({
-                    title: "Liste nicht gelöscht!",
-                    class: "red",
-                    message: "Die Liste wurde nicht gelöscht: " + err,
-                    showProgress: "bottom",
-                    position: "bottom right",
-                    displayTime: 10000,
-                });
-            } else {
-                $("body").toast({
-                    title: "Liste gelöscht.",
-                    class: "green",
-                    message: "Die Liste wurde gelöscht",
-                    showProgress: "bottom",
-                    position: "bottom right",
-                    displayTime: 3000,
-                });
-            }
-        });
+        $("#dlgConfirmRemoveList")
+            .modal({
+                allowMultiple: true,
+                closable: false,
+                onApprove: function () {
+                    $("#tasks .navBack").trigger("click");
+                    Meteor.call("deleteList", listId, (err) => {
+                        if (err) {
+                            $("body").toast({
+                                title: "Liste nicht gelöscht!",
+                                class: "red",
+                                message: "Die Liste wurde nicht gelöscht: " + err,
+                                showProgress: "bottom",
+                                position: "bottom right",
+                                displayTime: 10000,
+                            });
+                        } else {
+                            $("body").toast({
+                                title: "Liste gelöscht.",
+                                class: "green",
+                                message: "Die Liste wurde gelöscht",
+                                showProgress: "bottom",
+                                position: "bottom right",
+                                displayTime: 3000,
+                            });
+                        }
+                    });
+                },
+            })
+            .modal("show");
     },
     "click #opentasks .ah-checkbox .ah-checkbox-check, click #donetasks .ah-checkbox .ah-checkbox-check"(evt) {
         window.requestAnimationFrame(() => {
