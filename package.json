@@ -12,13 +12,13 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@babel/runtime": "^7.16.5",
-        "bcrypt": "^5.0.1",
-        "jquery": "^3.6.0",
-        "luxon": "^2.2.0",
-        "meteor-node-stubs": "^1.1.0",
-        "sjcl": "^1.0.8",
-        "sortablejs": "^1.14.0"
+        "@babel/runtime": "7.19.0",
+        "bcrypt": "5.0.1",
+        "jquery": "3.6.1",
+        "luxon": "3.0.3",
+        "meteor-node-stubs": "1.2.5",
+        "sjcl": "1.0.8",
+        "sortablejs": "1.15.0"
     },
     "meteor": {
         "mainModule": {
@@ -28,6 +28,6 @@
         "testModule": "tests/main.js"
     },
     "devDependencies": {
-        "prettier": "^2.2.1"
+        "prettier": "2.7.1"
     }
 }
