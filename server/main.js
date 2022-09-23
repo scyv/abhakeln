@@ -1,5 +1,5 @@
 import { Meteor } from "meteor/meteor";
-import { COLLECTIONS, Lists, Tasks, Shares } from "../both/collections";
+import { COLLECTIONS, Files, Lists, Tasks, Shares } from "../both/collections";
 import "../both/methods";
 
 Meteor.startup(() => {
@@ -30,6 +30,13 @@ Meteor.publish(COLLECTIONS.DONE_TASKS, function (listId) {
             return [];
         }
         return Tasks.find({ done: true, list: list._id });
+    }
+    return [];
+});
+
+Meteor.publish(COLLECTIONS.FILES, function (taskId) {
+    if (this.userId && taskId) {
+        return Files.find({ taskId: taskId });
     }
     return [];
 });

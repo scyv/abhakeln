@@ -5,6 +5,7 @@ export const COLLECTIONS = {
     DONE_TASKS: "doneTasks",
     LISTS: "lists",
     SHARES: "shares",
+    FILES: "files",
 };
 
 /**
@@ -40,3 +41,11 @@ export const Lists = new Mongo.Collection(COLLECTIONS.LISTS);
  * listKey: the encrypted list key
  */
 export const Shares = new Mongo.Collection(COLLECTIONS.SHARES);
+
+/**
+ * _id: the id
+ * taskId: the task
+ * name: filename
+ * data: filedata
+ */
+export const Files = new Mongo.Collection(COLLECTIONS.FILES);

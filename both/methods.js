@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
-import { Lists, Tasks, Shares } from "./collections";
+import { Lists, Tasks, Shares, Files } from "./collections";
 
 function checkUserLoggedIn(ctx) {
     if (!ctx.userId) {
@@ -128,6 +128,15 @@ Meteor.methods({
         const task = Tasks.findOne(taskId);
         checkUserOwnsList(this, task.list);
         Tasks.update({ _id: task._id }, { $set: { task: newName } });
+    },
+    addAttachments(taskId, attachments) {
+        check(taskId, String);
+
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        attachments.forEach((a) => {
+            Files.insert({ taskId: task._id, name: a.name, data: a.src });
+        });
     },
     deleteTask(taskId) {
         check(taskId, String);

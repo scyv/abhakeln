@@ -51,6 +51,16 @@ export class Encryption {
         return copy;
     }
 
+    encryptForList(data, listData, userId, masterKey) {
+        const listKey = this.decryptListKey(listData, userId, masterKey);
+        return this.encrypt(data, listKey);
+    }
+
+    decryptForList(data, listData, userId, masterKey) {
+        const listKey = this.decryptListKey(listData, userId, masterKey);
+        return this.decrypt(data, listKey);
+    }
+
     decryptListData(listData, userId, masterKey) {
         const ownerData = this.findOwnerInfo(listData, userId);
         const listKey = this.decryptListKey(listData, userId, masterKey, ownerData);

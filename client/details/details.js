@@ -1,11 +1,13 @@
-import { Tasks, Lists } from "../../both/collections";
+import { DateTime } from "luxon";
+import { Files, Tasks, Lists } from "../../both/collections";
 import { selectedTask, masterKey, selectedList } from "../storage";
 import { Encryption } from "../encryption";
-import { uistate } from "../main";
+import { uistate, filesHandle } from "../main";
 
 import "./details.html";
 import "./dlgRenameTask";
-import { DateTime } from "luxon";
+import "./dlgAttachment";
+import "./dlgBigAttachment.html";
 
 const crypto = new Encryption();
 
@@ -97,6 +99,22 @@ Template.details.helpers({
         const date = DateTime.fromISO(this.doneAt);
         return date.toFormat("dd.MM.yyyy HH:mm");
     },
+    loadingFiles() {
+        return !filesHandle.ready();
+    },
+    attachments() {
+        const task = Tasks.findOne(selectedTask.get());
+        if (!task) {
+            return null;
+        }
+        const list = Lists.findOne(task.list);
+        return Files.find()
+            .fetch()
+            .map((file) => ({
+                data: crypto.decryptForList(file.data, list, Meteor.userId(), masterKey.get()),
+                name: crypto.decryptForList(file.name, list, Meteor.userId(), masterKey.get()),
+            }));
+    },
 });
 
 Template.details.events({
@@ -154,6 +172,9 @@ Template.details.events({
     "click .miRenameTask"() {
         $("#dlgRenameTask").modal("show");
     },
+    "click .miAddAttachment"() {
+        $("#dlgAttachment").modal("show");
+    },
     "click #details .taskName"() {
         $("#dlgRenameTask").modal("show");
     },
@@ -187,5 +208,12 @@ Template.details.events({
                 });
             }
         });
+    },
+    "click .images > img"(evt) {
+        $("#dlgBigAttachment").modal("show");
+
+        const img = $(evt.currentTarget);
+        $("#dlgBigAttachment img").prop("src", img.prop("src"));
+        $("#dlgBigAttachment img").prop("alt", img.prop("name"));
     },
 });

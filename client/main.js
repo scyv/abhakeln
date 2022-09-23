@@ -19,6 +19,7 @@ export let tasksHandle;
 export let doneTasksHandle;
 export let listsHandle;
 export let sharesHandle;
+export let filesHandle;
 
 Template.registerHelper("formattedDate", (date) => {
     if (typeof date === "object") {
@@ -70,6 +71,7 @@ Tracker.autorun(() => {
     tasksHandle = Meteor.subscribe(COLLECTIONS.TASKS);
     sharesHandle = Meteor.subscribe(COLLECTIONS.SHARES);
     doneTasksHandle = Meteor.subscribe(COLLECTIONS.DONE_TASKS, selectedList.get());
+    filesHandle = Meteor.subscribe(COLLECTIONS.FILES, selectedTask.get());
 });
 
 const route = () => {

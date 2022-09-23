@@ -1,0 +1,24 @@
+<template name="dlgAttachment">
+    <div class="ui modal" id="dlgAttachment">
+        <div class="header">Anhang hinzufügen</div>
+        <div class="scrolling content">{{>dlgAttachment_fileinput}}</div>
+        <div class="actions">
+            <div class="ui black deny button">Abbruch</div>
+            {{>dlgAttachment_confirm}}
+        </div>
+    </div>
+</template>
+
+<template name="dlgAttachment_fileinput">
+    <div class="ui action input">
+        <input class="uploadInput" type="file" multiple />
+    </div>
+    <div id="filePreview" class="ui tiny images"></div>
+</template>
+
+<template name="dlgAttachment_confirm">
+    <div class="ui positive right labeled icon button">
+        Hinzufügen
+        <i class="checkmark icon"></i>
+    </div>
+</template>
