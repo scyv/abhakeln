@@ -32,4 +32,4 @@ jobs:
       - name: Build
         run: |
           meteor npm install
-          meteor build .build --server https://www.abhakeln.de --architecture os.linux.x86_64
+          meteor build .build --server https://www.abhakeln.de --architecture os.linux.x86_64 --server-only
