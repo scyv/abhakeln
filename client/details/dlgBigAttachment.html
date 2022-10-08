@@ -1,12 +1,29 @@
 <template name="dlgBigAttachment">
     <div class="ui modal" id="dlgBigAttachment">
+        {{#with selectedAttachment}}
         <div class="header">Anhang</div>
-        <div class="scrolling content">
-            <img class="ui fluid image" src="" />
-            <div class="attachmentName"></div>
+        <div class="scrolling content ui centered">
+            <h5>{{name}}</h5>
+            {{#if isImage .}}
+            <img class="ui fluid image" alt="{{name}}" src="{{data}}" />
+            {{else}}
+            <a class="ui center labeled green icon button" download="{{name}}" href="{{data}}">
+                <i class="arrow circle down icon"></i>
+                Herunterladen
+            </a>
+            {{/if}}
         </div>
         <div class="actions">
+            {{>dlgBigAttachment_delete}}
             <div class="ui black deny button">Schließen</div>
         </div>
+        {{/with}}
+    </div>
+</template>
+
+<template name="dlgBigAttachment_delete">
+    <div class="ui negative left labeled icon button">
+        Löschen
+        <i class="trash icon"></i>
     </div>
 </template>

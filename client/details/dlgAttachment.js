@@ -9,6 +9,7 @@ const crypto = new Encryption();
 Template.dlgAttachment_fileinput.events({
     "change .uploadInput"(evt) {
         const preview = $("#filePreview");
+        const noImgPreview = $("#noImgPreview");
         const fileInput = evt.currentTarget;
 
         const maxAllowed = Math.max(0, Math.min(fileInput.files.length, 5 - preview.children.length));
@@ -16,6 +17,16 @@ Template.dlgAttachment_fileinput.events({
         for (let i = 0; i < maxAllowed; i++) {
             const file = fileInput.files[i];
             if (!file.type.startsWith("image/")) {
+                const noImg = $("<span>" + file.name + "</span>");
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    noImgPreview.append(noImg);
+                    noImg.data("name", file.name);
+                    noImg.data("src", e.target.result);
+                    noImg.data("type", file.type);
+                };
+                reader.readAsDataURL(file);
+
                 continue;
             }
             generateThumbnail(file, [1024, 1024]).then((url) => {
@@ -42,7 +53,17 @@ Template.dlgAttachment_confirm.events({
             .map((img) => ({
                 src: crypto.encryptForList(img.src, list, Meteor.userId(), masterKey.get()),
                 name: crypto.encryptForList(img.alt, list, Meteor.userId(), masterKey.get()),
+                type: "image",
             }));
+
+        $("#noImgPreview span").each(function () {
+            const el = $(this);
+            attachments.push({
+                src: crypto.encryptForList(el.data("src"), list, Meteor.userId(), masterKey.get()),
+                name: crypto.encryptForList(el.data("name"), list, Meteor.userId(), masterKey.get()),
+                type: el.data("type"),
+            });
+        });
 
         Meteor.call("addAttachments", id, attachments);
     },

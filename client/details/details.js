@@ -12,6 +12,7 @@ import "./dlgBigAttachment.html";
 const crypto = new Encryption();
 
 const noteEditMode = new ReactiveVar(false);
+const selectedAttachment = new ReactiveVar(null);
 
 const germanCalendar = {
     text: {
@@ -111,9 +112,16 @@ Template.details.helpers({
         return Files.find()
             .fetch()
             .map((file) => ({
-                data: crypto.decryptForList(file.data, list, Meteor.userId(), masterKey.get()),
+                id: file._id,
+                data: crypto
+                    .decryptForList(file.data, list, Meteor.userId(), masterKey.get())
+                    .replace("application/pdf", "application/octet-stream"),
                 name: crypto.decryptForList(file.name, list, Meteor.userId(), masterKey.get()),
+                type: file.type,
             }));
+    },
+    isImage(fileData) {
+        return fileData.type === "image";
     },
 });
 
@@ -209,11 +217,51 @@ Template.details.events({
             }
         });
     },
-    "click .images > img"(evt) {
+    "click .images img, click .attachments > span"(evt) {
+        selectedAttachment.set(this);
         $("#dlgBigAttachment").modal("show");
+    },
+});
 
-        const img = $(evt.currentTarget);
-        $("#dlgBigAttachment img").prop("src", img.prop("src"));
-        $("#dlgBigAttachment img").prop("alt", img.prop("name"));
+Template.dlgBigAttachment.helpers({
+    selectedAttachment() {
+        const attachment = selectedAttachment.get();
+        if (attachment.type !== "image") {
+            return {
+                ...attachment,
+                data: attachment.data.replace(/application\/[^;]+/, "application/octet-stream"),
+            };
+        }
+        return attachment;
+    },
+    isImage(fileData) {
+        return fileData.type === "image";
+    },
+});
+Template.dlgBigAttachment_delete.events({
+    "click .button"() {
+        const id = selectedTask.get();
+        const attId = selectedAttachment.get()?.id;
+        Meteor.call("deleteAttachment", id, attId, (err) => {
+            if (err) {
+                $("body").toast({
+                    title: "Anhang nicht gelöscht!",
+                    class: "red",
+                    message: "Der Anhang wurde nicht gelöscht: " + err,
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 10000,
+                });
+            } else {
+                $("body").toast({
+                    title: "Anhang gelöscht.",
+                    class: "green",
+                    message: "Der Anhang " + selectedAttachment.get().name + " wurde gelöscht",
+                    showProgress: "bottom",
+                    position: "bottom right",
+                    displayTime: 3000,
+                });
+            }
+        });
     },
 });

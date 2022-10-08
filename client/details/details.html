@@ -93,11 +93,16 @@
             <span><div class="ui active inline loader"></div></span>
             {{else}} {{#if attachments}}
             <div class="field">
-                <label class="notesLabel">Anhänge:</label>
+                <label class="attachmentsLabel">Anhänge:</label>
                 <div class="ui tiny images">
-                    {{#each attachments}}
+                    {{#each attachments}} {{#if isImage .}}
                     <img src="{{data}}" alt="{{name}}" class="ui rounded image" />
-                    {{/each}}
+                    {{/if}} {{/each}}
+                </div>
+                <div class="ui attachments">
+                    {{#each attachments}} {{#if isImage .}} {{else}}
+                    <span>{{name}}</span>
+                    {{/if}} {{/each}}
                 </div>
             </div>
             {{/if}} {{/if}}

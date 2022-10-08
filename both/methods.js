@@ -135,8 +135,16 @@ Meteor.methods({
         const task = Tasks.findOne(taskId);
         checkUserOwnsList(this, task.list);
         attachments.forEach((a) => {
-            Files.insert({ taskId: task._id, name: a.name, data: a.src });
+            Files.insert({ taskId: task._id, name: a.name, data: a.src, type: a.type });
         });
+    },
+    deleteAttachment(taskId, attachmentId) {
+        check(taskId, String);
+        check(attachmentId, String);
+
+        const task = Tasks.findOne(taskId);
+        checkUserOwnsList(this, task.list);
+        Files.remove({ taskId: taskId, _id: attachmentId });
     },
     deleteTask(taskId) {
         check(taskId, String);
